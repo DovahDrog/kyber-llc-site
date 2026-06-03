@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kyber CodeFlow Demo | Field-to-Review Packet</title>
+  <meta name="description" content="Browser-only Kyber CodeFlow demo: enter inspection details, upload photos, dictate or type observations, and generate a human-review-ready draft packet." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#050816" />
+  <style>
+    :root { color-scheme:dark; --bg:#050816; --panel:rgba(15,23,42,.84); --card:rgba(255,255,255,.078); --line:rgba(148,163,184,.24); --text:#f8fafc; --muted:#b9c6dc; --cyan:#22d3ee; --violet:#8b5cf6; --pink:#ec4899; --green:#34d399; --amber:#fbbf24; --danger:#fb7185; --radius:24px; --max:1280px; --shadow:0 28px 90px rgba(0,0,0,.42),0 0 80px rgba(34,211,238,.10); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; min-width:320px; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; color:var(--text); background:radial-gradient(circle at 12% 0%,rgba(139,92,246,.34),transparent 32%),radial-gradient(circle at 88% 8%,rgba(34,211,238,.23),transparent 30%),linear-gradient(180deg,#050816 0%,#08111f 48%,#030712 100%); line-height:1.52; }
+    body::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.22; background-image:linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px); background-size:72px 72px; mask-image:linear-gradient(180deg,black,transparent 80%); }
+    a { color:inherit; }
+    .shell { width:min(var(--max),calc(100% - 34px)); margin:0 auto; position:relative; }
+    header { position:sticky; top:0; z-index:20; border-bottom:1px solid rgba(148,163,184,.16); backdrop-filter:blur(22px) saturate(145%); background:rgba(5,8,22,.78); }
+    .nav { min-height:70px; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:10px 0; }
+    .brand { display:flex; align-items:center; gap:12px; text-decoration:none; font-weight:900; letter-spacing:-.03em; }
+    .mark { width:40px; height:40px; border-radius:14px; display:grid; place-items:center; position:relative; overflow:hidden; background:conic-gradient(from 210deg,var(--cyan),var(--violet),var(--pink),var(--cyan)); box-shadow:0 0 34px rgba(34,211,238,.28); }
+    .mark::before { content:"K"; font-weight:950; color:white; z-index:1; }
+    .brand small { display:block; color:var(--muted); font-weight:700; letter-spacing:.01em; margin-top:-3px; }
+    .nav-links { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:7px; font-size:14px; color:#dbe7ff; }
+    .nav-links a { text-decoration:none; padding:9px 12px; border-radius:999px; border:1px solid transparent; }
+    .nav-links a:hover,.nav-links a:focus-visible { background:rgba(255,255,255,.08); outline:none; }
+    .nav-links .cta { background:linear-gradient(135deg,var(--cyan),var(--violet)); color:white; font-weight:850; box-shadow:0 12px 28px rgba(34,211,238,.18); }
+    .hero { padding:48px 0 20px; }
+    .eyebrow { display:inline-flex; align-items:center; gap:10px; padding:8px 12px; border:1px solid rgba(34,211,238,.30); border-radius:999px; background:rgba(34,211,238,.08); color:#b6f5ff; font-size:13px; font-weight:850; }
+    .dot { width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 0 7px rgba(52,211,153,.13); }
+    h1 { margin:18px 0 14px; max-width:940px; font-size:clamp(36px,6vw,72px); line-height:.92; letter-spacing:-.042em; }
+    .gradient { background:linear-gradient(105deg,#fff 0%,#b6f5ff 25%,#a78bfa 62%,#f0abfc 100%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .lead { color:var(--muted); font-size:clamp(17px,2vw,21px); max-width:940px; margin:0; }
+    .app-grid { display:grid; grid-template-columns:minmax(340px,.88fr) minmax(420px,1.12fr); gap:18px; padding:24px 0 70px; align-items:start; }
+    .panel,.card { border:1px solid var(--line); border-radius:var(--radius); background:linear-gradient(180deg,rgba(255,255,255,.095),rgba(255,255,255,.045)); box-shadow:0 18px 58px rgba(0,0,0,.22); }
+    .panel { overflow:hidden; }
+    .panel-head { padding:18px 20px; border-bottom:1px solid rgba(148,163,184,.18); background:rgba(15,23,42,.72); display:flex; align-items:flex-start; justify-content:space-between; gap:14px; }
+    .panel-head h2,.card h2 { margin:0; font-size:22px; letter-spacing:-.02em; }
+    .panel-head p,.card p { margin:5px 0 0; color:var(--muted); }
+    form { padding:18px 20px 20px; display:grid; gap:16px; }
+    .section-label { color:#9be8ff; text-transform:uppercase; letter-spacing:.14em; font-size:11px; font-weight:950; margin:5px 0 -3px; }
+    .field-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    label { display:grid; gap:7px; font-size:13px; color:#dbe7ff; font-weight:800; }
+    input,select,textarea { width:100%; border:1px solid rgba(148,163,184,.26); background:rgba(3,7,18,.58); color:var(--text); border-radius:14px; padding:12px 13px; min-height:44px; font:inherit; font-size:14px; }
+    textarea { min-height:112px; resize:vertical; }
+    .hint { color:#99a8bd; font-size:12px; font-weight:650; }
+    .check-row { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+    .check { display:flex; gap:10px; align-items:flex-start; padding:11px; border:1px solid rgba(148,163,184,.18); border-radius:15px; background:rgba(255,255,255,.05); color:#dbe7ff; font-size:13px; font-weight:800; }
+    .check input { width:auto; min-height:auto; margin-top:3px; }
+    .button,button.button { min-height:48px; display:inline-flex; align-items:center; justify-content:center; gap:9px; padding:12px 17px; border-radius:999px; text-decoration:none; font-weight:850; border:1px solid transparent; cursor:pointer; color:var(--text); font:inherit; }
+    .button:hover { transform:translateY(-1px); }
+    .button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible { outline:3px solid rgba(96,165,250,.42); outline-offset:2px; }
+    .primary { background:linear-gradient(135deg,var(--cyan),var(--violet)); color:white; box-shadow:0 18px 40px rgba(34,211,238,.18); }
+    .secondary { background:rgba(255,255,255,.075); border-color:var(--line); color:#eff6ff; }
+    .ghost { background:transparent; border-color:rgba(255,255,255,.18); color:#dbe7ff; }
+    .danger { background:rgba(251,113,133,.12); border-color:rgba(251,113,133,.34); color:#ffe4e6; }
+    .actions { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .results { display:grid; gap:18px; }
+    .score-card { padding:20px; position:relative; overflow:hidden; }
+    .score-card::before { content:""; position:absolute; width:260px; height:260px; border-radius:50%; right:-90px; top:-120px; background:rgba(34,211,238,.18); filter:blur(20px); }
+    .score-top { display:flex; justify-content:space-between; gap:16px; align-items:flex-start; position:relative; }
+    .score { font-size:58px; line-height:.92; letter-spacing:-.06em; font-weight:950; }
+    .score small { font-size:20px; color:var(--muted); letter-spacing:0; }
+    .badge { display:inline-flex; padding:7px 10px; border-radius:999px; font-weight:950; font-size:12px; background:rgba(34,211,238,.10); border:1px solid rgba(34,211,238,.25); color:#b6f5ff; }
+    .badge.hot { background:rgba(251,113,133,.12); border-color:rgba(251,113,133,.32); color:#ffe4e6; }
+    .badge.warm { background:rgba(251,191,36,.10); border-color:rgba(251,191,36,.30); color:#fef3c7; }
+    .badge.good { background:rgba(52,211,153,.10); border-color:rgba(52,211,153,.30); color:#d1fae5; }
+    .mini-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:14px; }
+    .metric { border:1px solid rgba(148,163,184,.18); background:rgba(3,7,18,.38); border-radius:16px; padding:12px; }
+    .metric strong { display:block; font-size:20px; line-height:1.1; }
+    .metric span { color:var(--muted); font-size:12px; }
+    .card { padding:20px; }
+    .card h3 { margin:0 0 8px; font-size:19px; letter-spacing:-.015em; }
+    .finding-list { display:grid; gap:12px; margin-top:14px; }
+    .finding { display:grid; grid-template-columns:42px 1fr; gap:12px; padding:14px; border:1px solid rgba(148,163,184,.18); border-radius:18px; background:rgba(3,7,18,.35); }
+    .num { width:38px; height:38px; display:grid; place-items:center; border-radius:14px; background:linear-gradient(135deg,var(--cyan),var(--violet)); font-weight:950; }
+    .finding strong { display:block; margin-bottom:4px; }
+    .finding p { margin:0; color:var(--muted); }
+    .output-block { white-space:pre-wrap; word-break:break-word; border:1px solid rgba(148,163,184,.20); background:rgba(3,7,18,.62); border-radius:16px; padding:15px; color:#e5edf9; font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; margin-top:12px; max-height:460px; overflow:auto; }
+    .compliance { border-color:rgba(251,191,36,.32); background:rgba(251,191,36,.075); }
+    .compliance ul { margin:12px 0 0; padding-left:20px; color:#fdecc8; }
+    .photo-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:10px; }
+    .photo-card { border:1px solid rgba(148,163,184,.18); border-radius:14px; padding:8px; background:rgba(3,7,18,.35); min-height:96px; display:grid; gap:8px; align-items:center; }
+    .photo-card img { width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:10px; border:1px solid rgba(148,163,184,.18); }
+    .photo-card span { color:#cbd5e1; font-size:11px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .toast { position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:#0f172a; color:#e0f2fe; border:1px solid rgba(34,211,238,.35); border-radius:999px; padding:10px 14px; box-shadow:var(--shadow); opacity:0; pointer-events:none; transition:opacity .18s ease,transform .18s ease; z-index:80; }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(-4px); }
+    .footer-note { color:#93a4bc; font-size:13px; padding-bottom:40px; }
+    @media (max-width:980px){ .app-grid{grid-template-columns:1fr}.field-grid,.mini-grid{grid-template-columns:1fr 1fr}.nav{align-items:flex-start;flex-direction:column}.nav-links{justify-content:flex-start} }
+    @media (max-width:620px){ .shell{width:min(100% - 26px,var(--max))}.field-grid,.check-row,.mini-grid,.photo-grid{grid-template-columns:1fr}.score-top{display:grid}.actions .button{width:100%}h1{font-size:40px} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="shell nav">
+      <a class="brand" href="/codeflow/" aria-label="Kyber CodeFlow"><span class="mark" aria-hidden="true"></span><span>CodeFlow Demo<small>Field-to-review packet</small></span></a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="/codeflow/">CodeFlow</a>
+        <a href="/products/">Products</a>
+        <a href="/">Kyber home</a>
+        <a class="cta" href="mailto:harley@kyber-llc.com?subject=Kyber%20CodeFlow%20pilot">Request pilot</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="shell">
+        <div class="eyebrow"><span class="dot"></span> Browser-only prototype — no records are sent</div>
+        <h1>Generate a draft inspection <span class="gradient">review packet.</span></h1>
+        <p class="lead">Enter a sample case, attach photos, dictate or type field observations, choose issue categories, and generate a human-review-ready draft packet. This demo shows the product workflow; it is not an official municipal record system.</p>
+      </div>
+    </section>
+
+    <section class="shell app-grid" aria-label="CodeFlow demo application">
+      <div class="panel">
+        <div class="panel-head">
+          <div><h2>Inspection capture</h2><p>Use sample data or enter a real-looking mock case. Do not upload sensitive records here.</p></div>
+          <span class="badge">MVP demo</span>
+        </div>
+        <form id="inspectionForm">
+          <div class="section-label">Case context</div>
+          <div class="field-grid">
+            <label>Jurisdiction / City
+              <input id="jurisdiction" value="Demo City Code Enforcement" autocomplete="organization" />
+            </label>
+            <label>Case number
+              <input id="caseNumber" value="DEMO-2026-001" />
+            </label>
+            <label>Property address
+              <input id="address" value="123 Sample Plaza, Demo City, FL" autocomplete="street-address" />
+            </label>
+            <label>Parcel ID
+              <input id="parcelId" value="00-00-00-0000-0000-0000" />
+            </label>
+            <label>Owner / responsible party
+              <input id="owner" value="Sample Property Holdings LLC" />
+            </label>
+            <label>Inspector / staff reviewer
+              <input id="inspector" value="Inspector Demo" />
+            </label>
+          </div>
+
+          <div class="section-label">Field photos</div>
+          <label>Upload site photos
+            <input id="photos" type="file" accept="image/*" multiple />
+            <span class="hint">Photos stay in your browser in this static demo. They are previewed only.</span>
+          </label>
+          <div id="photoPreview" class="photo-grid" aria-live="polite"></div>
+
+          <div class="section-label">Voice / typed observations</div>
+          <label>Inspector observations
+            <textarea id="observations">Rear dumpster enclosure gate appears open. Vegetation is overgrown along the south side. Debris or palm fronds are visible near parking spaces. There is a black hose or cable-looking object near the wall that needs verification before citing.</textarea>
+          </label>
+          <div class="actions">
+            <button type="button" class="button secondary" id="voiceButton">Start voice note</button>
+            <button type="button" class="button ghost" id="sampleButton">Load stronger sample</button>
+          </div>
+          <span class="hint" id="voiceHint">Voice input uses your browser's speech recognition if available. Typing always works.</span>
+
+          <div class="section-label">Observed issue categories</div>
+          <div class="check-row">
+            <label class="check"><input type="checkbox" name="issues" value="Overgrown vegetation" checked /> Overgrown vegetation</label>
+            <label class="check"><input type="checkbox" name="issues" value="Debris / litter / dead vegetation" checked /> Debris / litter / dead vegetation</label>
+            <label class="check"><input type="checkbox" name="issues" value="Outside storage" /> Outside storage</label>
+            <label class="check"><input type="checkbox" name="issues" value="Dumpster enclosure / screening" checked /> Dumpster enclosure / screening</label>
+            <label class="check"><input type="checkbox" name="issues" value="Possible structural / wall concern" /> Possible structural / wall concern</label>
+            <label class="check"><input type="checkbox" name="issues" value="Ambiguous object needs verification" checked /> Ambiguous object needs verification</label>
+          </div>
+
+          <div class="section-label">Output mode</div>
+          <label>Packet style
+            <select id="style">
+              <option value="field-review">Field review packet</option>
+              <option value="nov-draft">NOV draft language</option>
+              <option value="supervisor-summary">Supervisor summary</option>
+            </select>
+          </label>
+
+          <div class="actions">
+            <button class="button primary" type="submit">Generate review packet</button>
+            <button class="button danger" type="button" id="clearButton">Clear local demo</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="results">
+        <div class="card score-card">
+          <div class="score-top">
+            <div>
+              <h2>Packet readiness</h2>
+              <p>Readiness increases when the case has address/owner context, observations, photos, issue categories, and review controls.</p>
+            </div>
+            <div class="score" id="readinessScore">72<small>%</small></div>
+          </div>
+          <div class="mini-grid">
+            <div class="metric"><strong id="photoCount">0</strong><span>photos</span></div>
+            <div class="metric"><strong id="issueCount">4</strong><span>possible issues</span></div>
+            <div class="metric"><strong id="riskCount">2</strong><span>review flags</span></div>
+            <div class="metric"><strong>0</strong><span>auto-sends</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Suggested issue review</h2>
+          <p>These are possible findings for staff verification, not final citations.</p>
+          <div id="findingList" class="finding-list"></div>
+        </div>
+
+        <div class="card compliance">
+          <h2>Human approval checklist</h2>
+          <p>CodeFlow must keep this gate before official action.</p>
+          <ul id="checklist"></ul>
+        </div>
+
+        <div class="card">
+          <h2>Draft packet text</h2>
+          <p>Copy this into a proposal, prototype walkthrough, or internal review note.</p>
+          <div class="actions">
+            <button class="button secondary" type="button" id="copyButton">Copy packet</button>
+            <button class="button ghost" type="button" id="downloadButton">Download .txt</button>
+          </div>
+          <div id="packetOutput" class="output-block" aria-live="polite"></div>
+        </div>
+
+        <p class="footer-note"><strong>Demo boundary:</strong> This page runs in the browser only. It does not validate municipal code, create legal advice, send notices, store official records, or replace authorized municipal staff review.</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite">Copied</div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const form = $('inspectionForm');
+    const photoInput = $('photos');
+    const photoPreview = $('photoPreview');
+    const packetOutput = $('packetOutput');
+    const findingList = $('findingList');
+    const checklist = $('checklist');
+    const toast = $('toast');
+    let photoFiles = [];
+    let latestPacket = '';
+
+    const issueLibrary = {
+      'Overgrown vegetation': {
+        confidence: 'Medium',
+        review: 'Verify height/extent against the jurisdiction-specific vegetation standard and cure period.',
+        draft: 'Overgrown vegetation appears present and should be reviewed against the maintained vegetation code section.'
+      },
+      'Debris / litter / dead vegetation': {
+        confidence: 'Medium',
+        review: 'Verify whether material is debris, landscape waste, or normal maintenance residue before citing.',
+        draft: 'Debris, litter, or dead vegetation appears visible and may require removal or cleanup after staff verification.'
+      },
+      'Outside storage': {
+        confidence: 'Low',
+        review: 'Confirm whether items are stored outside, temporarily staged, tenant-owned, or permitted.',
+        draft: 'Possible outside storage should be reviewed for responsible party, duration, and applicable screening/storage rule.'
+      },
+      'Dumpster enclosure / screening': {
+        confidence: 'Medium',
+        review: 'Confirm gate/screening status at time of inspection and whether the condition is temporary or persistent.',
+        draft: 'Dumpster enclosure or screening appears unsecured/open and may require closure, repair, or screening correction.'
+      },
+      'Possible structural / wall concern': {
+        confidence: 'Low',
+        review: 'Do not cite based on image alone. Confirm with closer inspection, qualified staff, or applicable building process.',
+        draft: 'A possible structural or wall condition was observed and requires additional staff verification before any notice language is finalized.'
+      },
+      'Ambiguous object needs verification': {
+        confidence: 'Low',
+        review: 'Object identity is ambiguous. Example: black cable vs black water hose. Inspector must verify before citation.',
+        draft: 'An ambiguous object is visible. No citation should rely on this object until staff confirms what it is and whether it violates any maintained rule.'
+      }
+    };
+
+    function getCheckedIssues() {
+      return Array.from(document.querySelectorAll('input[name="issues"]:checked')).map((el) => el.value);
+    }
+
+    function escapeText(value) {
+      return String(value || '').replace(/[&<>"']/g, (char) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' }[char]));
+    }
+
+    function confidenceClass(confidence) {
+      if (confidence === 'Low') return 'hot';
+      if (confidence === 'Medium') return 'warm';
+      return 'good';
+    }
+
+    function renderPhotos() {
+      photoPreview.innerHTML = '';
+      photoFiles.forEach((file, index) => {
+        const card = document.createElement('div');
+        card.className = 'photo-card';
+        const img = document.createElement('img');
+        img.alt = `Inspection photo ${index + 1}: ${file.name}`;
+        const label = document.createElement('span');
+        label.textContent = `${index + 1}. ${file.name}`;
+        card.appendChild(img);
+        card.appendChild(label);
+        photoPreview.appendChild(card);
+        const reader = new FileReader();
+        reader.onload = () => { img.src = reader.result; };
+        reader.readAsDataURL(file);
+      });
+      $('photoCount').textContent = String(photoFiles.length);
+      updateReadiness();
+    }
+
+    function buildFindings(issues) {
+      findingList.innerHTML = '';
+      issues.forEach((issue, index) => {
+        const data = issueLibrary[issue] || { confidence:'Low', review:'Needs staff verification.', draft:'Possible issue requires staff review.' };
+        const item = document.createElement('div');
+        item.className = 'finding';
+        item.innerHTML = `<div class="num">${index + 1}</div><div><strong>${escapeText(issue)} <span class="badge ${confidenceClass(data.confidence)}">${data.confidence} confidence</span></strong><p>${escapeText(data.review)}</p></div>`;
+        findingList.appendChild(item);
+      });
+      $('issueCount').textContent = String(issues.length);
+      const risk = issues.filter((issue) => (issueLibrary[issue] || {}).confidence === 'Low').length + (photoFiles.length ? 0 : 1);
+      $('riskCount').textContent = String(risk);
+    }
+
+    function buildChecklist() {
+      const items = [
+        'Verify property address, parcel ID, owner/responsible party, and mailing address from official/local source.',
+        'Confirm every visible condition in the field; do not rely on image interpretation alone.',
+        'Confirm ambiguous objects before citing — e.g., black cable vs black water hose.',
+        'Use only jurisdiction-approved code sections, correction language, cure periods, and templates.',
+        'Review whether owner, tenant, manager, or another party is responsible for each issue.',
+        'Authorized municipal staff must approve final language before posting, mailing, emailing, or case-system export.',
+        'Preserve photos, notes, AI suggestions, human edits, and final approval in the audit trail.'
+      ];
+      checklist.innerHTML = items.map((item) => `<li>${escapeText(item)}</li>`).join('');
+    }
+
+    function updateReadiness() {
+      const fields = ['jurisdiction','caseNumber','address','parcelId','owner','inspector','observations'];
+      const filled = fields.filter((id) => $(id).value.trim()).length;
+      const issues = getCheckedIssues().length;
+      let score = Math.round((filled / fields.length) * 48 + Math.min(photoFiles.length, 4) * 8 + Math.min(issues, 5) * 4);
+      score = Math.max(0, Math.min(100, score));
+      $('readinessScore').innerHTML = `${score}<small>%</small>`;
+      return score;
+    }
+
+    function buildPacket() {
+      const issues = getCheckedIssues();
+      const now = new Date();
+      const style = $('style').value;
+      const observations = $('observations').value.trim();
+      const issueLines = issues.map((issue, index) => {
+        const data = issueLibrary[issue];
+        return `${index + 1}. ${issue}\n   Confidence: ${data.confidence}\n   Draft note: ${data.draft}\n   Required staff check: ${data.review}`;
+      }).join('\n\n');
+      const photoLines = photoFiles.length
+        ? photoFiles.map((file, index) => `Photo ${index + 1}: ${file.name}`).join('\n')
+        : 'No photos attached in this demo. Add photos before treating a packet as evidence-ready.';
+
+      const heading = style === 'nov-draft' ? 'DRAFT NOV REVIEW LANGUAGE' : style === 'supervisor-summary' ? 'SUPERVISOR REVIEW SUMMARY' : 'FIELD REVIEW PACKET';
+
+      return `${heading}\nKyber CodeFlow Demo Packet\nGenerated: ${now.toLocaleString()}\n\nCASE CONTEXT\nJurisdiction: ${$('jurisdiction').value.trim() || '[missing]'}\nCase number: ${$('caseNumber').value.trim() || '[missing]'}\nProperty address: ${$('address').value.trim() || '[missing]'}\nParcel ID: ${$('parcelId').value.trim() || '[missing]'}\nOwner/responsible party: ${$('owner').value.trim() || '[missing]'}\nInspector/reviewer: ${$('inspector').value.trim() || '[missing]'}\n\nFIELD OBSERVATIONS\n${observations || '[missing]'}\n\nPHOTO EVIDENCE\n${photoLines}\n\nPOSSIBLE ISSUES FOR STAFF REVIEW\n${issueLines || 'No issue categories selected.'}\n\nDRAFT NARRATIVE\nBased on the field observations and attached photos, CodeFlow prepared this draft packet for human review. The selected categories may indicate maintenance, screening, storage, debris, vegetation, or other code-enforcement issues, but no violation is confirmed until authorized staff verify the site condition, responsible party, applicable jurisdiction-specific code section, cure period, and final notice language.\n\nAPPROVAL GATE\n[ ] Address/parcel/owner verified from official source\n[ ] Photos reviewed and matched to each alleged issue\n[ ] Ambiguous objects verified in the field\n[ ] Code sections pulled from maintained city library\n[ ] Cure period and correction language confirmed\n[ ] Owner/tenant/responsible party confirmed\n[ ] Supervisor/officer approved final notice language\n\nDEMO BOUNDARY\nThis is a browser-only Kyber CodeFlow prototype. It does not issue official notices, validate municipal law, replace authorized staff judgment, or send/post/mail anything automatically.`;
+    }
+
+    function renderPacket(event) {
+      if (event) event.preventDefault();
+      const issues = getCheckedIssues();
+      buildFindings(issues);
+      buildChecklist();
+      updateReadiness();
+      latestPacket = buildPacket();
+      packetOutput.textContent = latestPacket;
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      window.setTimeout(() => toast.classList.remove('show'), 1700);
+    }
+
+    photoInput.addEventListener('change', () => {
+      photoFiles = Array.from(photoInput.files || []);
+      renderPhotos();
+      renderPacket();
+    });
+
+    form.addEventListener('submit', renderPacket);
+    form.addEventListener('input', updateReadiness);
+
+    $('copyButton').addEventListener('click', async () => {
+      if (!latestPacket) renderPacket();
+      try {
+        await navigator.clipboard.writeText(latestPacket);
+        showToast('Packet copied');
+      } catch (error) {
+        showToast('Copy blocked by browser');
+      }
+    });
+
+    $('downloadButton').addEventListener('click', () => {
+      if (!latestPacket) renderPacket();
+      const blob = new Blob([latestPacket], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `kyber-codeflow-demo-${Date.now()}.txt`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    $('clearButton').addEventListener('click', () => {
+      photoFiles = [];
+      photoInput.value = '';
+      photoPreview.innerHTML = '';
+      $('observations').value = '';
+      renderPacket();
+      showToast('Local demo cleared');
+    });
+
+    $('sampleButton').addEventListener('click', () => {
+      $('observations').value = 'Front landscape bed has overgrown vegetation and dead palm fronds. Rear dumpster gate is open and appears to have deteriorated wood. There are stored materials near the tenant rear door. A dark object along the wall may be a hose or cable and should be verified before citing. Debris is visible near the parking spaces.';
+      document.querySelectorAll('input[name="issues"]').forEach((box) => { box.checked = true; });
+      renderPacket();
+      showToast('Sample loaded');
+    });
+
+    $('voiceButton').addEventListener('click', () => {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        showToast('Voice not available in this browser');
+        return;
+      }
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+      $('voiceHint').textContent = 'Listening... speak the field observation.';
+      recognition.onresult = (event) => {
+        const transcript = Array.from(event.results).map((result) => result[0].transcript).join(' ');
+        const existing = $('observations').value.trim();
+        $('observations').value = existing ? `${existing}\n${transcript}` : transcript;
+        $('voiceHint').textContent = 'Voice note added. Review/correct the transcript before generating the packet.';
+        renderPacket();
+      };
+      recognition.onerror = () => { $('voiceHint').textContent = 'Voice input failed or was blocked. Typing still works.'; };
+      recognition.onend = () => { if ($('voiceHint').textContent === 'Listening... speak the field observation.') $('voiceHint').textContent = 'Voice input ended.'; };
+      recognition.start();
+    });
+
+    renderPacket();
+  </script>
+</body>
+</html>

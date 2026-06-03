@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kyber CodeFlow | AI-Assisted Code Enforcement Field Documentation</title>
+  <meta name="description" content="Kyber CodeFlow helps municipal code enforcement teams capture photos, dictate field observations, organize evidence, and generate officer-review-ready draft inspection and NOV packets." />
+  <meta property="og:title" content="Kyber CodeFlow" />
+  <meta property="og:description" content="AI-assisted field documentation and draft NOV workflow for municipal code enforcement teams." />
+  <meta name="theme-color" content="#050816" />
+  <style>
+    :root { color-scheme: dark; --bg:#050816; --panel:rgba(15,23,42,.78); --line:rgba(148,163,184,.22); --text:#f8fafc; --muted:#bac6dc; --cyan:#22d3ee; --violet:#8b5cf6; --pink:#ec4899; --green:#34d399; --amber:#fbbf24; --danger:#fb7185; --radius:28px; --max:1180px; --shadow:0 28px 90px rgba(0,0,0,.42),0 0 80px rgba(34,211,238,.10); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; min-width:320px; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; color:var(--text); line-height:1.55; background:radial-gradient(circle at 14% 0%,rgba(139,92,246,.35),transparent 34%),radial-gradient(circle at 88% 8%,rgba(34,211,238,.23),transparent 30%),linear-gradient(180deg,#050816 0%,#08111f 48%,#030712 100%); }
+    body::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.24; background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px); background-size:72px 72px; mask-image:linear-gradient(180deg,black,transparent 78%); }
+    a { color:inherit; }
+    .shell { width:min(var(--max),calc(100% - 40px)); margin:0 auto; position:relative; }
+    header { position:sticky; top:0; z-index:30; border-bottom:1px solid rgba(148,163,184,.15); backdrop-filter:blur(22px) saturate(145%); background:rgba(5,8,22,.74); }
+    .nav { min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:18px; padding:10px 0; }
+    .brand { display:flex; align-items:center; gap:12px; text-decoration:none; font-weight:900; letter-spacing:-.03em; }
+    .mark { width:40px; height:40px; border-radius:14px; display:grid; place-items:center; position:relative; overflow:hidden; background:conic-gradient(from 210deg,var(--cyan),var(--violet),var(--pink),var(--cyan)); box-shadow:0 0 34px rgba(34,211,238,.28); }
+    .mark::before { content:"K"; font-weight:950; color:white; z-index:1; }
+    .brand small { display:block; color:var(--muted); font-weight:700; letter-spacing:.01em; margin-top:-4px; }
+    .nav-links { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:7px; font-size:14px; color:#dbe7ff; }
+    .nav-links a { text-decoration:none; padding:9px 12px; border-radius:999px; }
+    .nav-links a:hover,.nav-links a:focus-visible { background:rgba(255,255,255,.08); outline:none; }
+    .nav-links .cta { background:linear-gradient(135deg,var(--cyan),var(--violet)); color:white; font-weight:850; }
+    .hero { padding:78px 0 54px; overflow:hidden; }
+    .hero-grid { display:grid; grid-template-columns:minmax(0,1.02fr) minmax(360px,.98fr); gap:42px; align-items:center; }
+    .eyebrow { display:inline-flex; align-items:center; gap:10px; padding:8px 12px; border:1px solid rgba(34,211,238,.30); border-radius:999px; background:rgba(34,211,238,.08); color:#b6f5ff; font-size:13px; font-weight:850; }
+    .dot { width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 0 7px rgba(52,211,153,.13); }
+    h1 { margin:20px 0 16px; max-width:900px; font-size:clamp(42px,7vw,84px); line-height:.92; letter-spacing:-.042em; }
+    .gradient { background:linear-gradient(105deg,#fff 0%,#b6f5ff 25%,#a78bfa 62%,#f0abfc 100%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .lead { color:var(--muted); font-size:clamp(18px,2vw,22px); max-width:850px; margin:0; }
+    .actions { display:flex; flex-wrap:wrap; gap:11px; align-items:center; margin-top:26px; }
+    .button { min-height:50px; display:inline-flex; align-items:center; justify-content:center; gap:9px; padding:13px 18px; border-radius:999px; text-decoration:none; font-weight:850; border:1px solid transparent; }
+    .button:hover { transform:translateY(-1px); }
+    .button:focus-visible { outline:3px solid rgba(96,165,250,.42); outline-offset:3px; }
+    .primary { background:linear-gradient(135deg,var(--cyan),var(--violet)); color:white; box-shadow:0 18px 40px rgba(34,211,238,.18); }
+    .secondary { background:rgba(255,255,255,.075); border-color:var(--line); color:#eff6ff; }
+    .ghost { background:transparent; border-color:rgba(255,255,255,.18); color:#dbe7ff; }
+    section { padding:62px 0; }
+    .section-head { max-width:840px; margin-bottom:26px; }
+    .kicker { color:#9be8ff; text-transform:uppercase; letter-spacing:.16em; font-size:12px; font-weight:950; margin:0 0 10px; }
+    h2 { font-size:clamp(32px,4.8vw,58px); line-height:.98; letter-spacing:-.03em; margin:0 0 14px; }
+    h3 { margin:0 0 10px; font-size:23px; letter-spacing:-.018em; }
+    p { color:var(--muted); }
+    .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    .grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+    .card { border:1px solid var(--line); border-radius:var(--radius); background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.045)); padding:24px; box-shadow:0 16px 45px rgba(0,0,0,.20); }
+    .card.featured { border-color:rgba(34,211,238,.55); box-shadow:0 24px 70px rgba(34,211,238,.14); background:linear-gradient(180deg,rgba(34,211,238,.13),rgba(139,92,246,.07)); }
+    .chip { display:inline-flex; width:max-content; align-items:center; gap:8px; padding:7px 10px; border-radius:999px; background:rgba(34,211,238,.09); border:1px solid rgba(34,211,238,.18); color:#b6f5ff; font-size:12px; font-weight:850; margin-bottom:16px; }
+    .list { list-style:none; padding:0; margin:18px 0 0; display:grid; gap:10px; color:#d8e3f9; }
+    .list li { display:flex; gap:10px; align-items:flex-start; }
+    .list li::before { content:"✓"; color:var(--green); font-weight:950; }
+    .process { display:grid; gap:12px; counter-reset:step; }
+    .step { counter-increment:step; display:grid; grid-template-columns:54px 1fr; gap:16px; align-items:start; padding:18px; border:1px solid var(--line); border-radius:22px; background:rgba(255,255,255,.055); }
+    .step::before { content:counter(step); width:48px; height:48px; display:grid; place-items:center; border-radius:16px; background:linear-gradient(135deg,var(--cyan),var(--violet)); font-weight:950; }
+    .step p { margin:0; }
+    .demo-panel { position:relative; padding:18px; border:1px solid rgba(255,255,255,.17); border-radius:34px; background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.055)); box-shadow:var(--shadow); overflow:hidden; }
+    .screen { border:1px solid rgba(148,163,184,.2); border-radius:24px; background:rgba(3,7,18,.78); overflow:hidden; }
+    .screen-top { height:46px; display:flex; align-items:center; gap:8px; padding:0 16px; border-bottom:1px solid rgba(148,163,184,.14); background:rgba(15,23,42,.72); }
+    .light { width:10px; height:10px; border-radius:50%; background:#64748b; } .light:nth-child(1){background:#fb7185}.light:nth-child(2){background:#fbbf24}.light:nth-child(3){background:#34d399}
+    .terminal { padding:18px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:13px; color:#c4f1ff; }
+    .event { display:grid; grid-template-columns:110px 1fr auto; gap:12px; padding:13px 0; border-bottom:1px solid rgba(148,163,184,.11); }
+    .event:last-child { border-bottom:0; }
+    .tag { color:#a78bfa; font-weight:900; }
+    .status { color:var(--green); font-weight:850; }
+    .warning { border:1px solid rgba(251,191,36,.32); border-radius:22px; padding:18px; background:rgba(251,191,36,.075); color:#fdecc8; }
+    .price { font-size:38px; line-height:1; letter-spacing:-.03em; margin:14px 0 6px; font-weight:950; color:#fff; }
+    .price small { font-size:16px; color:var(--muted); letter-spacing:0; font-weight:750; }
+    .footer { padding:38px 0 50px; border-top:1px solid rgba(148,163,184,.16); color:#9aa7bd; }
+    .footer-grid { display:grid; grid-template-columns:1.2fr .8fr; gap:24px; align-items:start; }
+    .legal-links { display:flex; flex-wrap:wrap; gap:12px; justify-content:flex-end; }
+    @media (max-width:980px){ .hero-grid,.grid-3,.grid-2,.footer-grid{grid-template-columns:1fr}.nav{align-items:flex-start;flex-direction:column}.nav-links{justify-content:flex-start}.demo-panel{max-width:640px} }
+    @media (max-width:620px){ .shell{width:min(100% - 26px,var(--max))}.actions .button{width:100%}h1{font-size:43px}.event{grid-template-columns:1fr;gap:4px}.step{grid-template-columns:1fr}.legal-links{justify-content:flex-start} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="shell nav">
+      <a class="brand" href="/" aria-label="Kyber LLC home"><span class="mark" aria-hidden="true"></span><span>Kyber CodeFlow<small>Field inspection workflow</small></span></a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="/">Home</a>
+        <a href="/products/">Products</a>
+        <a href="/codeflow/">CodeFlow</a>
+        <a href="/codeflow/demo/">Demo</a>
+        <a href="mailto:harley@kyber-llc.com?subject=Kyber%20CodeFlow%20pilot">Request pilot</a>
+        <a class="cta" href="/codeflow/demo/">Try demo</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div>
+          <div class="eyebrow"><span class="dot"></span> New Kyber GovTech product track</div>
+          <h1>Turn field inspections into <span class="gradient">review-ready NOV packets.</span></h1>
+          <p class="lead">Kyber CodeFlow helps code enforcement teams capture photos, dictate field observations, organize evidence, and draft inspection/NOV documentation for authorized staff review.</p>
+          <div class="actions">
+            <a class="button primary" href="/codeflow/demo/">Try the browser demo →</a>
+            <a class="button secondary" href="mailto:harley@kyber-llc.com?subject=Kyber%20CodeFlow%20pilot">Request a pilot proposal</a>
+            <a class="button ghost" href="#workflow">See workflow</a>
+          </div>
+        </div>
+        <div class="demo-panel" aria-label="CodeFlow workflow illustration">
+          <div class="screen">
+            <div class="screen-top"><span class="light"></span><span class="light"></span><span class="light"></span></div>
+            <div class="terminal">
+              <div class="event"><span class="tag">photo.capture</span><span>7 site photos attached to inspection case</span><span class="status">tagged</span></div>
+              <div class="event"><span class="tag">voice.note</span><span>Inspector dictates observations in the field</span><span class="status">structured</span></div>
+              <div class="event"><span class="tag">parcel.lookup</span><span>Property/appraiser context queued for review</span><span class="status">ready</span></div>
+              <div class="event"><span class="tag">nov.draft</span><span>Possible issues and draft language prepared</span><span class="status">review</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow">
+      <div class="shell grid-2">
+        <div class="section-head">
+          <p class="kicker">Workflow</p>
+          <h2>Built around how inspectors actually work.</h2>
+          <p>Today, field staff often take photos and then stop later to type notes, gather property data, match issues to code sections, and assemble notices. CodeFlow compresses that field-to-office gap.</p>
+        </div>
+        <div class="process">
+          <div class="step"><div><h3>See it, photograph it</h3><p>Capture site photos and attach them to the inspection case with address, parcel, owner, and case context where available.</p></div></div>
+          <div class="step"><div><h3>Talk through the observations</h3><p>Use voice or typed notes to describe vegetation, debris, storage, screening, access, or other field conditions.</p></div></div>
+          <div class="step"><div><h3>Generate possible findings</h3><p>CodeFlow organizes evidence, suggests possible issue categories, and flags uncertainty that must be checked by staff.</p></div></div>
+          <div class="step"><div><h3>Review before official action</h3><p>Authorized staff verify facts, object identity, code citations, cure periods, and final notice language before posting or mailing.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="shell">
+        <div class="section-head">
+          <p class="kicker">MVP feature set</p>
+          <h2>First version: documentation and draft packet creation.</h2>
+          <p>The first sellable version should be a paid pilot/prototype that connects to a department's actual templates, code library, approval workflow, and property-data process.</p>
+        </div>
+        <div class="grid-3">
+          <article class="card"><span class="chip">Capture</span><h3>Photos + field notes</h3><p>Upload/capture photos, dictate observations, and structure the inspection record without retyping everything later.</p><ul class="list"><li>Photo evidence</li><li>Voice-to-notes workflow</li><li>Case/address context</li></ul></article>
+          <article class="card"><span class="chip">Organize</span><h3>Possible violation mapping</h3><p>Group observations into likely categories, tag evidence, and connect findings to a maintained jurisdiction-specific code library.</p><ul class="list"><li>Confidence flags</li><li>Photo-to-issue tagging</li><li>Code-library controls</li></ul></article>
+          <article class="card"><span class="chip">Draft</span><h3>Review packet generation</h3><p>Prepare officer-review-ready inspection notes, draft NOV language, and exportable packet text/PDF after human confirmation.</p><ul class="list"><li>Draft NOV language</li><li>Human approval checklist</li><li>Audit trail</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="guardrails">
+      <div class="shell grid-2">
+        <div class="warning">
+          <p class="kicker">Critical safeguard</p>
+          <h2>AI suggestions are not final enforcement decisions.</h2>
+          <p>CodeFlow is designed to assist authorized municipal staff. It should say "possible violation" until staff verify the site condition, object identity, applicable code, responsible party, cure period, and notice language.</p>
+        </div>
+        <div class="warning">
+          <p class="kicker">Real-world example</p>
+          <h2>Ambiguity must be visible.</h2>
+          <p>If an object looks like a black cable but may be a black water hose, the system must flag uncertainty and require inspector confirmation before citation. The correction belongs in the audit trail.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="commercial">
+      <div class="shell">
+        <div class="section-head">
+          <p class="kicker">Commercial path</p>
+          <h2>Sell first as a paid pilot, then convert into subscription/licensing.</h2>
+          <p>Municipal procurement is slower than local-service sales, so CodeFlow should begin as a tightly scoped paid pilot with a warm champion and real workflow materials.</p>
+        </div>
+        <div class="grid-3">
+          <article class="card featured"><span class="chip">Pilot</span><h3>Paid prototype / pilot</h3><div class="price">Proposal <small>required</small></div><p>Target $5k-$15k depending on templates, records, code library, and workflow complexity.</p><div class="actions"><a class="button primary" href="mailto:harley@kyber-llc.com?subject=Kyber%20CodeFlow%20pilot">Request pilot proposal</a></div></article>
+          <article class="card"><span class="chip">Subscription</span><h3>Department support/license</h3><div class="price">$1k-$5k <small>/mo target</small></div><p>After pilot validation: monthly support, maintenance, template updates, workflow tuning, and user support.</p></article>
+          <article class="card"><span class="chip">Annual</span><h3>Municipal license</h3><div class="price">$15k+ <small>/yr target</small></div><p>Mature product path with annual agreements, multi-seat deployment, integrations, security controls, and case-management export.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="needed">
+      <div class="shell grid-2">
+        <div class="card">
+          <p class="kicker">Pilot inputs</p>
+          <h2>What we need from a workflow expert.</h2>
+          <ul class="list"><li>Blank NOV templates</li><li>Anonymized completed packets</li><li>Common violation categories and code sections</li><li>Current property lookup and case-management process</li><li>Approval authority and posting/mailing workflow</li></ul>
+        </div>
+        <div class="card featured">
+          <p class="kicker">Demo now live</p>
+          <h2>Use the clickable demo to sell the concept.</h2>
+          <p>The current demo is browser-only and does not store or send records. It exists to show the workflow, collect buyer feedback, and support a paid pilot conversation.</p>
+          <div class="actions"><a class="button primary" href="/codeflow/demo/">Open CodeFlow demo →</a><a class="button secondary" href="/products/">Back to products</a></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer-grid">
+      <div>
+        <a class="brand" href="/" aria-label="Kyber LLC home"><span class="mark" aria-hidden="true"></span><span>Kyber CodeFlow<small>Field inspection workflow</small></span></a>
+        <p>Kyber CodeFlow is a Kyber LLC product track for AI-assisted municipal field documentation and officer-review-ready draft inspection packets. It is not autonomous enforcement and does not replace authorized municipal judgment.</p>
+        <p>Kyber LLC, 1352 Via De Pepi, Boynton Beach, FL 33426, United States</p>
+      </div>
+      <div class="legal-links">
+        <a href="/products/">Products</a>
+        <a href="/codeflow/demo/">Demo</a>
+        <a href="mailto:harley@kyber-llc.com">Email</a>
+        <a href="tel:+15619412565">Call Kyber</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
