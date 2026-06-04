@@ -172,7 +172,7 @@
           <label>Packet style
             <select id="style">
               <option value="field-review">Field review packet</option>
-              <option value="nov-draft">NOV draft language</option>
+              <option value="case-packet">Review-ready case packet</option>
               <option value="supervisor-summary">Supervisor summary</option>
             </select>
           </label>
@@ -359,7 +359,7 @@
         ? photoFiles.map((file, index) => `Photo ${index + 1}: ${file.name}`).join('\n')
         : 'No photos attached in this demo. Add photos before treating a packet as evidence-ready.';
 
-      const heading = style === 'nov-draft' ? 'DRAFT NOV REVIEW LANGUAGE' : style === 'supervisor-summary' ? 'SUPERVISOR REVIEW SUMMARY' : 'FIELD REVIEW PACKET';
+      const heading = style === 'case-packet' ? 'REVIEW-READY CASE PACKET DRAFT' : style === 'supervisor-summary' ? 'SUPERVISOR REVIEW SUMMARY' : 'FIELD REVIEW PACKET';
 
       return `${heading}\nKyber CodeFlow Demo Packet\nGenerated: ${now.toLocaleString()}\n\nCASE CONTEXT\nJurisdiction: ${$('jurisdiction').value.trim() || '[missing]'}\nCase number: ${$('caseNumber').value.trim() || '[missing]'}\nProperty address: ${$('address').value.trim() || '[missing]'}\nParcel ID: ${$('parcelId').value.trim() || '[missing]'}\nOwner/responsible party: ${$('owner').value.trim() || '[missing]'}\nInspector/reviewer: ${$('inspector').value.trim() || '[missing]'}\n\nFIELD OBSERVATIONS\n${observations || '[missing]'}\n\nPHOTO EVIDENCE\n${photoLines}\n\nPOSSIBLE ISSUES FOR STAFF REVIEW\n${issueLines || 'No issue categories selected.'}\n\nDRAFT NARRATIVE\nBased on the field observations and attached photos, CodeFlow prepared this draft packet for human review. The selected categories may indicate maintenance, screening, storage, debris, vegetation, or other code-enforcement issues, but no violation is confirmed until authorized staff verify the site condition, responsible party, applicable jurisdiction-specific code section, cure period, and final notice language.\n\nAPPROVAL GATE\n[ ] Address/parcel/owner verified from official source\n[ ] Photos reviewed and matched to each alleged issue\n[ ] Ambiguous objects verified in the field\n[ ] Code sections pulled from maintained city library\n[ ] Cure period and correction language confirmed\n[ ] Owner/tenant/responsible party confirmed\n[ ] Supervisor/officer approved final notice language\n\nDEMO BOUNDARY\nThis is a browser-only Kyber CodeFlow prototype. It does not issue official notices, validate municipal law, replace authorized staff judgment, or send/post/mail anything automatically.`;
     }
