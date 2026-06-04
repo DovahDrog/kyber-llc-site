@@ -223,7 +223,7 @@
           <div id="packetOutput" class="output-block" aria-live="polite"></div>
         </div>
 
-        <p class="footer-note"><strong>Demo boundary:</strong> This page runs in the browser only. It does not validate municipal code, create legal advice, send notices, store official records, or replace authorized municipal staff review.</p>
+        <p class="footer-note"><strong>Demo boundary:</strong> This page runs in the browser only. It does not validate municipal code, create legal advice, send official documents, store official records, or replace authorized municipal staff review.</p>
       </div>
     </section>
   </main>
@@ -266,7 +266,7 @@
       'Possible structural / wall concern': {
         confidence: 'Low',
         review: 'Do not cite based on image alone. Confirm with closer inspection, qualified staff, or applicable building process.',
-        draft: 'A possible structural or wall condition was observed and requires additional staff verification before any notice language is finalized.'
+        draft: 'A possible structural or wall condition was observed and requires additional staff verification before any case-packet language is finalized.'
       },
       'Ambiguous object needs verification': {
         confidence: 'Low',
@@ -361,7 +361,7 @@
 
       const heading = style === 'case-packet' ? 'REVIEW-READY CASE PACKET DRAFT' : style === 'supervisor-summary' ? 'SUPERVISOR REVIEW SUMMARY' : 'FIELD REVIEW PACKET';
 
-      return `${heading}\nKyber CodeFlow Demo Packet\nGenerated: ${now.toLocaleString()}\n\nCASE CONTEXT\nJurisdiction: ${$('jurisdiction').value.trim() || '[missing]'}\nCase number: ${$('caseNumber').value.trim() || '[missing]'}\nProperty address: ${$('address').value.trim() || '[missing]'}\nParcel ID: ${$('parcelId').value.trim() || '[missing]'}\nOwner/responsible party: ${$('owner').value.trim() || '[missing]'}\nInspector/reviewer: ${$('inspector').value.trim() || '[missing]'}\n\nFIELD OBSERVATIONS\n${observations || '[missing]'}\n\nPHOTO EVIDENCE\n${photoLines}\n\nPOSSIBLE ISSUES FOR STAFF REVIEW\n${issueLines || 'No issue categories selected.'}\n\nDRAFT NARRATIVE\nBased on the field observations and attached photos, CodeFlow prepared this draft packet for human review. The selected categories may indicate maintenance, screening, storage, debris, vegetation, or other code-enforcement issues, but no violation is confirmed until authorized staff verify the site condition, responsible party, applicable jurisdiction-specific code section, cure period, and final notice language.\n\nAPPROVAL GATE\n[ ] Address/parcel/owner verified from official source\n[ ] Photos reviewed and matched to each alleged issue\n[ ] Ambiguous objects verified in the field\n[ ] Code sections pulled from maintained city library\n[ ] Cure period and correction language confirmed\n[ ] Owner/tenant/responsible party confirmed\n[ ] Supervisor/officer approved final notice language\n\nDEMO BOUNDARY\nThis is a browser-only Kyber CodeFlow prototype. It does not issue official notices, validate municipal law, replace authorized staff judgment, or send/post/mail anything automatically.`;
+      return `${heading}\nKyber CodeFlow Demo Packet\nGenerated: ${now.toLocaleString()}\n\nCASE CONTEXT\nJurisdiction: ${$('jurisdiction').value.trim() || '[missing]'}\nCase number: ${$('caseNumber').value.trim() || '[missing]'}\nProperty address: ${$('address').value.trim() || '[missing]'}\nParcel ID: ${$('parcelId').value.trim() || '[missing]'}\nOwner/responsible party: ${$('owner').value.trim() || '[missing]'}\nInspector/reviewer: ${$('inspector').value.trim() || '[missing]'}\n\nFIELD OBSERVATIONS\n${observations || '[missing]'}\n\nPHOTO EVIDENCE\n${photoLines}\n\nPOSSIBLE ISSUES FOR STAFF REVIEW\n${issueLines || 'No issue categories selected.'}\n\nDRAFT NARRATIVE\nBased on the field observations and attached photos, CodeFlow prepared this draft packet for human review. The selected categories may indicate maintenance, screening, storage, debris, vegetation, or other code-enforcement issues, but no violation is confirmed until authorized staff verify the site condition, responsible party, applicable jurisdiction-specific code section, cure period, and final case-packet language.\n\nAPPROVAL GATE\n[ ] Address/parcel/owner verified from official source\n[ ] Photos reviewed and matched to each alleged issue\n[ ] Ambiguous objects verified in the field\n[ ] Code sections pulled from maintained city library\n[ ] Cure period and correction language confirmed\n[ ] Owner/tenant/responsible party confirmed\n[ ] Supervisor/officer approved final case-packet language\n\nDEMO BOUNDARY\nThis is a browser-only Kyber CodeFlow prototype. It does not issue official documents, validate municipal law, replace authorized staff judgment, or send/post/mail anything automatically.`;
     }
 
     function renderPacket(event) {

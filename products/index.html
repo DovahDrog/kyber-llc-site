@@ -57,7 +57,7 @@
     .list li { display:flex; gap:10px; align-items:flex-start; }
     .list li::before { content:"✓"; color:var(--green); font-weight:950; }
     .card .actions { margin-top:auto; }
-    .notice { border:1px solid rgba(251,191,36,.32); border-radius:22px; padding:18px; background:rgba(251,191,36,.075); color:#fdecc8; }
+    .alert-note { border:1px solid rgba(251,191,36,.32); border-radius:22px; padding:18px; background:rgba(251,191,36,.075); color:#fdecc8; }
     .footer { padding:38px 0 50px; border-top:1px solid rgba(148,163,184,.16); color:#9aa7bd; }
     .footer-grid { display:grid; grid-template-columns:1.2fr .8fr; gap:24px; align-items:start; }
     .legal-links { display:flex; flex-wrap:wrap; gap:12px; justify-content:flex-end; }
@@ -73,6 +73,7 @@
         <a href="/">Home</a>
         <a href="/products/">Products</a>
         <a href="/codeflow/">CodeFlow</a>
+        <a href="/codeflow/portal/">CodeFlow Portal</a>
         <a href="/lead-leak-snapshot/">Lead Leak Snapshot</a>
         <a href="/client-command-center/">Client Dashboard</a>
         <a href="tel:+15619412565">Call (561) 941-2565</a>
@@ -171,9 +172,9 @@
           <article class="card featured">
             <span class="chip">New GovTech track</span>
             <h3>Kyber CodeFlow</h3>
-            <p>AI-assisted field documentation and review-ready case packets for municipal code enforcement teams. Built around photos, voice notes, parcel context, possible violations, and human approval.</p>
-            <ul class="list"><li>Paid pilot/prototype path</li><li>Human-in-the-loop review</li><li>Municipal workflow subscription potential</li></ul>
-            <div class="actions"><a class="button primary" href="/codeflow/">Open CodeFlow page</a><a class="button secondary" href="/codeflow/demo/">Try demo</a></div>
+            <p>Paywalled GovTech subscription for municipal code compliance teams: staff accounts, city packs, photos/voice notes, parcel context, possible violations, and review-ready case packets for authorized human approval.</p>
+            <ul class="list"><li>$7.5k-$25k setup target</li><li>$2k+/mo organization portal target</li><li>Staff accounts; no shared passwords</li><li>Human-in-the-loop review only</li></ul>
+            <div class="actions"><a class="button primary" href="/codeflow/">Open CodeFlow page</a><a class="button secondary" href="/codeflow/portal/">Portal access</a><a class="button secondary" href="/codeflow/demo/">Try demo</a></div>
           </article>
 
           <article class="card">
@@ -197,12 +198,12 @@
 
     <section id="guardrails">
       <div class="shell grid-2">
-        <div class="notice">
+        <div class="alert-note">
           <p class="kicker">Sales rule</p>
           <h2>Sell systems, not generic AI.</h2>
           <p>Every offer should be named, outcome-specific, priced or proposal-gated, and tied to a proof asset or demo. Kyber should not sound like a vague AI agency.</p>
         </div>
-        <div class="notice">
+        <div class="alert-note">
           <p class="kicker">Compliance rule</p>
           <h2>Regulated workflows stay gated.</h2>
           <p>Law, municipal enforcement, healthcare/HIPAA, SMS, AI voice, financial, and payment workflows require the relevant approval, consent, review, or vendor gate before activation.</p>
@@ -221,6 +222,7 @@
       <div class="legal-links">
         <a href="/">Home</a>
         <a href="/codeflow/">CodeFlow</a>
+        <a href="/codeflow/portal/">Portal</a>
         <a href="/lead-leak-snapshot/">Snapshot</a>
         <a href="mailto:harley@kyber-llc.com">Email</a>
         <a href="tel:+15619412565">Call AI intake</a>
