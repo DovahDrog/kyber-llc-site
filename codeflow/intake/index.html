@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kyber CodeFlow Intake | Request a Municipal Pilot</title>
+  <meta name="description" content="Request a scoped Kyber CodeFlow municipal pilot: City Pack setup, staff workflow review, source-backed issue categories, and review-ready case packet drafting for human approval." />
+  <meta property="og:title" content="Kyber CodeFlow Intake | Request a Municipal Pilot" />
+  <meta property="og:description" content="Request a scoped Kyber CodeFlow municipal pilot: City Pack setup, staff workflow review, source-backed issue categories, and review-ready case packet drafting for human approval." />
+  <meta name="theme-color" content="#050816" />
+  <style>
+    :root { color-scheme: dark; --bg:#050816; --panel:rgba(15,23,42,.78); --line:rgba(148,163,184,.22); --text:#f8fafc; --muted:#bac6dc; --cyan:#22d3ee; --violet:#8b5cf6; --pink:#ec4899; --green:#34d399; --amber:#fbbf24; --danger:#fb7185; --radius:28px; --max:1180px; --shadow:0 28px 90px rgba(0,0,0,.42),0 0 80px rgba(34,211,238,.10); }
+    * { box-sizing:border-box; } html { scroll-behavior:smooth; }
+    body { margin:0; min-width:320px; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; color:var(--text); line-height:1.55; background:radial-gradient(circle at 14% 0%,rgba(139,92,246,.35),transparent 34%),radial-gradient(circle at 88% 8%,rgba(34,211,238,.23),transparent 30%),linear-gradient(180deg,#050816 0%,#08111f 48%,#030712 100%); }
+    body::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.24; background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px); background-size:72px 72px; mask-image:linear-gradient(180deg,black,transparent 78%); }
+    a { color:inherit; } .shell { width:min(var(--max),calc(100% - 40px)); margin:0 auto; position:relative; }
+    header { position:sticky; top:0; z-index:30; border-bottom:1px solid rgba(148,163,184,.15); backdrop-filter:blur(22px) saturate(145%); background:rgba(5,8,22,.74); }
+    .nav { min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:18px; padding:10px 0; }
+    .brand { display:flex; align-items:center; gap:12px; text-decoration:none; font-weight:900; letter-spacing:-.03em; }
+    .mark { width:40px; height:40px; border-radius:14px; display:grid; place-items:center; position:relative; overflow:hidden; background:conic-gradient(from 210deg,var(--cyan),var(--violet),var(--pink),var(--cyan)); box-shadow:0 0 34px rgba(34,211,238,.28); }
+    .mark::before { content:"K"; font-weight:950; color:white; z-index:1; } .brand small { display:block; color:var(--muted); font-weight:700; letter-spacing:.01em; margin-top:-4px; }
+    .nav-links { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:7px; font-size:14px; color:#dbe7ff; }
+    .nav-links a { text-decoration:none; padding:9px 12px; border-radius:999px; } .nav-links a:hover,.nav-links a:focus-visible { background:rgba(255,255,255,.08); outline:none; }
+    .nav-links .cta { background:linear-gradient(135deg,var(--cyan),var(--violet)); color:white; font-weight:850; }
+    .hero { padding:78px 0 54px; } .hero-grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(340px,.86fr); gap:36px; align-items:start; }
+    .eyebrow { display:inline-flex; align-items:center; gap:10px; padding:8px 12px; border:1px solid rgba(34,211,238,.30); border-radius:999px; background:rgba(34,211,238,.08); color:#b6f5ff; font-size:13px; font-weight:850; }
+    .dot { width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 0 7px rgba(52,211,153,.13); }
+    h1 { margin:20px 0 16px; max-width:900px; font-size:clamp(42px,7vw,82px); line-height:.92; letter-spacing:-.042em; }
+    .gradient { background:linear-gradient(105deg,#fff 0%,#b6f5ff 25%,#a78bfa 62%,#f0abfc 100%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .lead { color:var(--muted); font-size:clamp(18px,2vw,22px); max-width:850px; margin:0; }
+    .actions { display:flex; flex-wrap:wrap; gap:11px; align-items:center; margin-top:26px; }
+    .button { min-height:50px; display:inline-flex; align-items:center; justify-content:center; gap:9px; padding:13px 18px; border-radius:999px; text-decoration:none; font-weight:850; border:1px solid transparent; }
+    .primary { background:linear-gradient(135deg,var(--cyan),var(--violet)); color:white; box-shadow:0 18px 40px rgba(34,211,238,.18); } .secondary { background:rgba(255,255,255,.075); border-color:var(--line); color:#eff6ff; } .ghost { background:transparent; border-color:rgba(255,255,255,.18); color:#dbe7ff; }
+    section { padding:58px 0; } .section-head { max-width:840px; margin-bottom:26px; } .kicker { color:#9be8ff; text-transform:uppercase; letter-spacing:.16em; font-size:12px; font-weight:950; margin:0 0 10px; }
+    h2 { font-size:clamp(32px,4.8vw,58px); line-height:.98; letter-spacing:-.03em; margin:0 0 14px; } h3 { margin:0 0 10px; font-size:23px; letter-spacing:-.018em; } p { color:var(--muted); }
+    .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; } .grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+    .card { border:1px solid var(--line); border-radius:var(--radius); background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.045)); padding:24px; box-shadow:0 16px 45px rgba(0,0,0,.20); }
+    .card.featured { border-color:rgba(34,211,238,.55); box-shadow:0 24px 70px rgba(34,211,238,.14); background:linear-gradient(180deg,rgba(34,211,238,.13),rgba(139,92,246,.07)); }
+    .warning { border:1px solid rgba(251,191,36,.32); border-radius:22px; padding:18px; background:rgba(251,191,36,.075); color:#fdecc8; }
+    .chip { display:inline-flex; width:max-content; align-items:center; gap:8px; padding:7px 10px; border-radius:999px; background:rgba(34,211,238,.09); border:1px solid rgba(34,211,238,.18); color:#b6f5ff; font-size:12px; font-weight:850; margin-bottom:16px; }
+    .list { list-style:none; padding:0; margin:18px 0 0; display:grid; gap:10px; color:#d8e3f9; } .list li { display:flex; gap:10px; align-items:flex-start; } .list li::before { content:"✓"; color:var(--green); font-weight:950; }
+    form { display:grid; gap:14px; } label { display:grid; gap:7px; color:#dbe7ff; font-weight:800; } input, textarea, select { width:100%; border:1px solid rgba(148,163,184,.28); border-radius:16px; background:rgba(3,7,18,.65); color:white; padding:13px 14px; font:inherit; } textarea { min-height:112px; resize:vertical; } .hidden-field { position:absolute; left:-10000px; opacity:0; height:1px; width:1px; overflow:hidden; }
+    .result { display:none; margin-top:16px; border:1px solid rgba(52,211,153,.32); border-radius:18px; background:rgba(52,211,153,.09); padding:16px; color:#d1fae5; } .result.error { border-color:rgba(251,113,133,.42); background:rgba(251,113,133,.10); color:#ffe4e6; }
+    .fine { color:#96a3b8; font-size:13px; margin-top:12px; } .footer { padding:38px 0 50px; border-top:1px solid rgba(148,163,184,.16); color:#9aa7bd; } .footer-grid { display:grid; grid-template-columns:1.2fr .8fr; gap:24px; align-items:start; } .legal-links { display:flex; flex-wrap:wrap; gap:12px; justify-content:flex-end; }
+    @media (max-width:980px){ .hero-grid,.grid-3,.grid-2,.footer-grid{grid-template-columns:1fr}.nav{align-items:flex-start;flex-direction:column}.nav-links{justify-content:flex-start} } @media (max-width:620px){ .shell{width:min(100% - 26px,var(--max))}.actions .button{width:100%}h1{font-size:43px}.legal-links{justify-content:flex-start} }
+
+  </style>
+</head>
+<body>
+<header><div class="shell nav"><a class="brand" href="/" aria-label="Kyber LLC home"><span class="mark" aria-hidden="true"></span><span>Kyber CodeFlow<small>Municipal workflow portal</small></span></a><nav class="nav-links" aria-label="Primary navigation"><a href="/">Home</a><a href="/products/">Products</a><a href="/codeflow/">CodeFlow</a><a href="/codeflow/demo/">Demo</a><a href="/codeflow/portal/">Portal</a><a href="/codeflow/proposal/">Pilot proposal</a><a class="cta" href="/codeflow/intake/">Request pilot</a></nav></div></header>
+<main>
+  <section class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> CodeFlow paid pilot intake</div>
+        <h1>Start a <span class="gradient">city-specific CodeFlow pilot.</span></h1>
+        <p class="lead">Use this intake to request a scoped municipal CodeFlow pilot: City Pack setup, staff workflow review, source-backed issue categories, and review-ready case packet generation for authorized human review.</p>
+        <div class="actions"><a class="button secondary" href="/codeflow/demo/">Try browser demo</a><a class="button ghost" href="/codeflow/proposal/">Read pilot proposal</a></div>
+        <p class="fine">Submitting this form gives Kyber permission to contact you about CodeFlow by email or phone. It does not authorize SMS campaigns or outbound AI voice calls.</p>
+      </div>
+      <div class="card featured">
+        <span class="chip">Secure intake route</span>
+        <h3>What happens after submission</h3>
+        <ul class="list"><li>Kyber logs the request in the CodeFlow intake backend.</li><li>Kyber prepares a pre-call brief from official municipal sources.</li><li>Harley/Alex can run a focused pilot/demo conversation.</li><li>Any payment or subscription starts only after scope, paperwork, and buyer approval.</li></ul>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="shell grid-2">
+      <div class="card featured">
+        <span class="chip">Request pilot</span>
+        <form id="codeflow-intake-form">
+          <label>Municipality / agency <input name="municipality" required maxlength="180" autocomplete="organization" /></label>
+          <label>City / state <input name="city_state" maxlength="160" placeholder="Example: Boynton Beach, FL" /></label>
+          <label>Contact name <input name="contact_name" required maxlength="160" autocomplete="name" /></label>
+          <label>Email <input name="email" required type="email" maxlength="180" autocomplete="email" /></label>
+          <label>Phone <input name="phone" maxlength="80" autocomplete="tel" /></label>
+          <label>Role / title <input name="role_title" maxlength="180" placeholder="Code Compliance Manager, Director, City Manager, etc." /></label>
+          <label>Department <input name="department" maxlength="180" placeholder="Code Compliance, Building, Planning, etc." /></label>
+          <label>Staff / users <input name="staff_count" maxlength="120" placeholder="Approximate number of inspectors/reviewers" /></label>
+          <label>Current workflow <textarea name="current_workflow" maxlength="1000" placeholder="How do field photos, notes, parcel checks, templates, and supervisor review work today?"></textarea></label>
+          <label>Priority need <textarea name="priority_need" maxlength="1000" placeholder="What should a pilot prove first: time savings, consistency, packet completeness, source gaps, audit trail, training, etc.?"></textarea></label>
+          <label>Target timeline <input name="target_timeline" maxlength="160" placeholder="30-60 days, next budget cycle, immediate pilot, etc." /></label>
+          <label>Message <textarea name="message" maxlength="1200" placeholder="Anything else Kyber should know before the pre-call brief?"></textarea></label>
+          <label class="hidden-field">Leave this blank <input name="website_url" tabindex="-1" autocomplete="off" /></label>
+          <label style="display:flex; grid-template-columns:auto 1fr; align-items:flex-start; gap:10px; font-weight:750;"><input type="checkbox" name="consent_to_contact" required style="width:auto; margin-top:5px;" /> <span>I authorize Kyber LLC to contact me about CodeFlow by email or phone. I understand this does not authorize SMS campaigns or outbound AI voice calls.</span></label>
+          <input type="hidden" name="source_page" value="/codeflow/intake/" />
+          <button class="button primary" type="submit">Submit CodeFlow intake →</button>
+        </form>
+        <div id="intake-result" class="result" role="status" aria-live="polite"></div>
+        <p class="fine">Backend endpoint: https://voice-tools.kyber-llc.com/codeflow/intake. Form data is limited to pilot qualification and follow-up. Do not submit sensitive case records here.</p>
+      </div>
+      <div class="card">
+        <span class="chip">Pilot scope</span>
+        <h3>CodeFlow is sold as a scoped municipal workflow pilot.</h3>
+        <ul class="list"><li>One organization/department account.</li><li>City Pack from official sources.</li><li>Selected issue families for the pilot.</li><li>Staff accounts and review workflow plan.</li><li>Review-ready case packet drafts only.</li><li>Authorized reviewer approval before any official action.</li></ul>
+        <div class="warning"><strong>Boundary:</strong> CodeFlow does not make final determinations, issue official documents, impose penalties, or replace municipal staff judgment.</div>
+        <div class="actions"><a class="button secondary" href="mailto:harley@kyber-llc.com?subject=Kyber%20CodeFlow%20pilot%20backup">Email backup</a><a class="button ghost" href="tel:+15619412565">Call (561) 941-2565</a></div>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+(function() {
+  const form = document.getElementById('codeflow-intake-form');
+  const result = document.getElementById('intake-result');
+  form.addEventListener('submit', async function(event) {
+    event.preventDefault();
+    result.style.display = 'block';
+    result.className = 'result';
+    result.textContent = 'Submitting CodeFlow intake...';
+    const data = Object.fromEntries(new FormData(form).entries());
+    data.consent_to_contact = form.elements.consent_to_contact.checked;
+    data.test_mode = false;
+    try {
+      const response = await fetch('https://voice-tools.kyber-llc.com/codeflow/intake', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      const payload = await response.json();
+      if (!response.ok || payload.received === false) throw new Error(payload.blocked_reason || 'intake_not_received');
+      result.innerHTML = '<strong>Received.</strong><br>Intake ID: ' + payload.intake_id + '<br>' + (payload.next_step || 'Kyber will follow up for the pilot conversation.');
+      form.reset();
+    } catch (error) {
+      result.className = 'result error';
+      result.innerHTML = '<strong>Submission blocked or unavailable.</strong><br>Please email harley@kyber-llc.com with subject “Kyber CodeFlow pilot.” Error: ' + String(error.message || error);
+    }
+  });
+}());
+</script>
+<footer class="footer"><div class="shell footer-grid"><div><strong>Kyber LLC</strong><p>Majority disabled veteran-owned Florida company building AI-assisted workflow systems for municipal and commercial operations.</p><p>Boynton Beach, FL · <a href="mailto:harley@kyber-llc.com">harley@kyber-llc.com</a> · <a href="tel:+15619412565">(561) 941-2565</a></p></div><div class="legal-links"><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/codeflow/demo/">Demo</a><a href="/codeflow/intake/">Intake</a></div></div></footer>
+</body>
+</html>
