@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /legacy/
+Disallow: /lead-leak-snapshot/
+Disallow: /partners/
+Disallow: /client-command-center/
+Sitemap: https://kyber-llc.com/sitemap.xml
