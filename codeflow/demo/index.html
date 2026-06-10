@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kyber CodeFlow Demo | Field-to-Review Packet</title>
-  <meta name="description" content="Browser-only Kyber CodeFlow demo: enter inspection details, upload photos, dictate or type observations, and generate a human-review-ready draft packet." />
+  <title>Kyber CodeFlow Demo | Complaint and Field Capture Sandbox</title>
+  <meta name="description" content="Private browser-only CodeFlow demo: resident complaint call intake and field officer capture both route into the same review-ready triage engine." />
   <meta name="robots" content="noindex, nofollow" />
   <meta name="theme-color" content="#050816" />
   <style>
@@ -25,13 +25,28 @@
     .nav-links a { text-decoration:none; padding:9px 12px; border-radius:999px; border:1px solid transparent; }
     .nav-links a:hover,.nav-links a:focus-visible { background:rgba(255,255,255,.08); outline:none; }
     .nav-links .cta { background:linear-gradient(135deg,var(--cyan),var(--violet)); color:white; font-weight:850; box-shadow:0 12px 28px rgba(34,211,238,.18); }
-    .hero { padding:48px 0 20px; }
+    .hero { padding:48px 0 22px; }
     .eyebrow { display:inline-flex; align-items:center; gap:10px; padding:8px 12px; border:1px solid rgba(34,211,238,.30); border-radius:999px; background:rgba(34,211,238,.08); color:#b6f5ff; font-size:13px; font-weight:850; }
     .dot { width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 0 7px rgba(52,211,153,.13); }
-    h1 { margin:18px 0 14px; max-width:940px; font-size:clamp(36px,6vw,72px); line-height:.92; letter-spacing:-.042em; }
+    h1 { margin:18px 0 14px; max-width:1100px; font-size:clamp(36px,6vw,74px); line-height:.92; letter-spacing:-.046em; }
     .gradient { background:linear-gradient(105deg,#fff 0%,#b6f5ff 25%,#a78bfa 62%,#f0abfc 100%); -webkit-background-clip:text; background-clip:text; color:transparent; }
-    .lead { color:var(--muted); font-size:clamp(17px,2vw,21px); max-width:940px; margin:0; }
-    .app-grid { display:grid; grid-template-columns:minmax(340px,.88fr) minmax(420px,1.12fr); gap:18px; padding:24px 0 70px; align-items:start; }
+    .lead { color:var(--muted); font-size:clamp(17px,2vw,21px); max-width:980px; margin:0; }
+    .door-section { padding:14px 0 26px; }
+    .door-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:stretch; }
+    .door-card { width:100%; min-height:178px; text-align:left; color:inherit; cursor:pointer; border:1px solid var(--line); border-radius:var(--radius); background:linear-gradient(180deg,rgba(255,255,255,.095),rgba(255,255,255,.045)); box-shadow:0 18px 58px rgba(0,0,0,.22); padding:22px; transition:transform .16s ease,border-color .16s ease,background .16s ease; }
+    .door-card:hover,.door-card:focus-visible { transform:translateY(-2px); outline:none; border-color:rgba(34,211,238,.55); }
+    .door-card.active { border-color:rgba(34,211,238,.72); background:linear-gradient(180deg,rgba(34,211,238,.16),rgba(139,92,246,.08)); box-shadow:0 24px 70px rgba(34,211,238,.12); }
+    .door-card span { display:inline-flex; padding:7px 10px; border-radius:999px; font-size:12px; font-weight:950; color:#b6f5ff; background:rgba(34,211,238,.10); border:1px solid rgba(34,211,238,.24); }
+    .door-card h2 { margin:14px 0 8px; font-size:27px; letter-spacing:-.026em; }
+    .door-card p { margin:0; color:var(--muted); }
+    .shared-flow { margin-top:16px; border:1px solid rgba(52,211,153,.30); border-radius:var(--radius); background:rgba(52,211,153,.07); padding:18px; }
+    .shared-flow h2 { margin:0 0 12px; font-size:23px; letter-spacing:-.02em; }
+    .flow-line { display:grid; grid-template-columns:repeat(6,1fr); gap:9px; }
+    .flow-step { border:1px solid rgba(148,163,184,.18); border-radius:16px; background:rgba(3,7,18,.35); padding:11px; min-height:74px; }
+    .flow-step strong { display:block; color:#f8fafc; font-size:13px; }
+    .flow-step span { display:block; color:#b9c6dc; font-size:12px; margin-top:3px; }
+    .fresh-row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:14px; color:var(--muted); }
+    .app-grid { display:grid; grid-template-columns:minmax(350px,.92fr) minmax(430px,1.08fr); gap:18px; padding:24px 0 70px; align-items:start; }
     .panel,.card { border:1px solid var(--line); border-radius:var(--radius); background:linear-gradient(180deg,rgba(255,255,255,.095),rgba(255,255,255,.045)); box-shadow:0 18px 58px rgba(0,0,0,.22); }
     .panel { overflow:hidden; }
     .panel-head { padding:18px 20px; border-bottom:1px solid rgba(148,163,184,.18); background:rgba(15,23,42,.72); display:flex; align-items:flex-start; justify-content:space-between; gap:14px; }
@@ -42,8 +57,10 @@
     .field-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
     label { display:grid; gap:7px; font-size:13px; color:#dbe7ff; font-weight:800; }
     input,select,textarea { width:100%; border:1px solid rgba(148,163,184,.26); background:rgba(3,7,18,.58); color:var(--text); border-radius:14px; padding:12px 13px; min-height:44px; font:inherit; font-size:14px; }
-    textarea { min-height:112px; resize:vertical; }
+    textarea { min-height:118px; resize:vertical; }
     .hint { color:#99a8bd; font-size:12px; font-weight:650; }
+    .mode-fields { display:none; gap:16px; }
+    .mode-fields.active { display:grid; }
     .check-row { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
     .check { display:flex; gap:10px; align-items:flex-start; padding:11px; border:1px solid rgba(148,163,184,.18); border-radius:15px; background:rgba(255,255,255,.05); color:#dbe7ff; font-size:13px; font-weight:800; }
     .check input { width:auto; min-height:auto; margin-top:3px; }
@@ -76,7 +93,7 @@
     .num { width:38px; height:38px; display:grid; place-items:center; border-radius:14px; background:linear-gradient(135deg,var(--cyan),var(--violet)); font-weight:950; }
     .finding strong { display:block; margin-bottom:4px; }
     .finding p { margin:0; color:var(--muted); }
-    .output-block { white-space:pre-wrap; word-break:break-word; border:1px solid rgba(148,163,184,.20); background:rgba(3,7,18,.62); border-radius:16px; padding:15px; color:#e5edf9; font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; margin-top:12px; max-height:460px; overflow:auto; }
+    .output-block { white-space:pre-wrap; word-break:break-word; border:1px solid rgba(148,163,184,.20); background:rgba(3,7,18,.62); border-radius:16px; padding:15px; color:#e5edf9; font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; margin-top:12px; max-height:520px; overflow:auto; }
     .compliance { border-color:rgba(251,191,36,.32); background:rgba(251,191,36,.075); }
     .compliance ul { margin:12px 0 0; padding-left:20px; color:#fdecc8; }
     .photo-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:10px; }
@@ -86,17 +103,19 @@
     .toast { position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:#0f172a; color:#e0f2fe; border:1px solid rgba(34,211,238,.35); border-radius:999px; padding:10px 14px; box-shadow:var(--shadow); opacity:0; pointer-events:none; transition:opacity .18s ease,transform .18s ease; z-index:80; }
     .toast.show { opacity:1; transform:translateX(-50%) translateY(-4px); }
     .footer-note { color:#93a4bc; font-size:13px; padding-bottom:40px; }
-    @media (max-width:980px){ .app-grid{grid-template-columns:1fr}.field-grid,.mini-grid{grid-template-columns:1fr 1fr}.nav{align-items:flex-start;flex-direction:column}.nav-links{justify-content:flex-start} }
-    @media (max-width:620px){ .shell{width:min(100% - 26px,var(--max))}.field-grid,.check-row,.mini-grid,.photo-grid{grid-template-columns:1fr}.score-top{display:grid}.actions .button{width:100%}h1{font-size:40px} }
+    @media (max-width:1040px){ .app-grid,.door-grid{grid-template-columns:1fr}.flow-line{grid-template-columns:repeat(3,1fr)} }
+    @media (max-width:980px){ .field-grid,.mini-grid{grid-template-columns:1fr 1fr}.nav{align-items:flex-start;flex-direction:column}.nav-links{justify-content:flex-start} }
+    @media (max-width:620px){ .shell{width:min(100% - 26px,var(--max))}.field-grid,.check-row,.mini-grid,.photo-grid,.flow-line{grid-template-columns:1fr}.score-top{display:grid}.actions .button{width:100%}h1{font-size:40px} }
   </style>
 </head>
 <body>
   <header>
     <div class="shell nav">
-      <a class="brand" href="/codeflow/" aria-label="Kyber CodeFlow"><span class="mark" aria-hidden="true"></span><span>CodeFlow Demo<small>Field-to-review packet</small></span></a>
+      <a class="brand" href="/codeflow/" aria-label="Kyber CodeFlow"><span class="mark" aria-hidden="true"></span><span>CodeFlow Demo<small>Complaint and field routing</small></span></a>
       <nav class="nav-links" aria-label="Primary navigation">
         <a href="/codeflow/">CodeFlow</a>
         <a href="/products/">Products</a>
+        <a href="/codeflow/proof/">Proof</a>
         <a href="/">Kyber home</a>
         <a class="cta" href="/codeflow/intake/#codeflow-intake-form">Request pilot</a>
       </nav>
@@ -106,79 +125,124 @@
   <main>
     <section class="hero">
       <div class="shell">
-        <div class="eyebrow"><span class="dot"></span> Browser-only prototype — no records are sent</div>
-        <h1>Generate a draft inspection <span class="gradient">review packet.</span></h1>
-        <p class="lead">Enter a sample case, attach photos, dictate or type field observations, choose issue categories, and generate a human-review-ready draft packet. This demo shows the product workflow; it is not an official municipal record system.</p>
+        <div class="eyebrow"><span class="dot"></span> Private browser-only sandbox — no records are sent</div>
+        <h1>Turn complaints and field observations into <span class="gradient">routed, review-ready cases.</span></h1>
+        <p class="lead">Two doors feed the same CodeFlow routing engine: resident complaint calls and field officer capture. The demo uses safe sample data, but you can type a fresh address or scenario during a sales conversation.</p>
+      </div>
+    </section>
+
+    <section class="door-section">
+      <div class="shell">
+        <div class="door-grid" aria-label="Demo entry paths">
+          <button type="button" class="door-card active" id="complaintDoor">
+            <span>Resident Complaint Call</span>
+            <h2>Run Complaint Call Demo</h2>
+            <p>For front desk, public intake, and after-hours call handling. Shows name and address requirements, anonymous complaint gate, complaint capture, GIS zone match, and officer routing.</p>
+          </button>
+          <button type="button" class="door-card" id="fieldDoor">
+            <span>Field Officer Capture</span>
+            <h2>Run Field Capture Demo</h2>
+            <p>For officers on phone or tablet. Shows photo upload, push-to-talk notes, address lookup, possible issue families, rare-case guidance, verification checklist, and handoff preview.</p>
+          </button>
+        </div>
+
+        <div class="shared-flow" aria-label="Shared CodeFlow triage result">
+          <h2>CodeFlow Triage</h2>
+          <div class="flow-line">
+            <div class="flow-step"><strong>Address verified</strong><span>Required before routing.</span></div>
+            <div class="flow-step"><strong>Parcel/GIS matched</strong><span>Fake sandbox layer.</span></div>
+            <div class="flow-step"><strong>Zone identified</strong><span>Sample city zones.</span></div>
+            <div class="flow-step"><strong>Issue family suggested</strong><span>Staff-review draft only.</span></div>
+            <div class="flow-step"><strong>Review gates surfaced</strong><span>Missing facts, permit, rare issue.</span></div>
+            <div class="flow-step"><strong>Officer/queue assigned</strong><span>Preview handoff.</span></div>
+          </div>
+          <div class="fresh-row">
+            <button class="button ghost" type="button" id="freshButton">Try A Fresh Scenario</button>
+            <span>Clear the safe sample and type a live prompt like “123 Sample Street, overgrowth and runoff near the side yard.”</span>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="shell app-grid" aria-label="CodeFlow demo application">
       <div class="panel">
         <div class="panel-head">
-          <div><h2>Inspection capture</h2><p>Use sample data or enter a real-looking mock case. Do not upload sensitive records here.</p></div>
-          <span class="badge">MVP demo</span>
+          <div><h2 id="formTitle">Resident complaint intake</h2><p id="formSubtitle">Capture the call, enforce the identity/address gate, and route to the right zone queue.</p></div>
+          <span class="badge" id="modeBadge">Complaint path</span>
         </div>
-        <form id="inspectionForm">
-          <div class="section-label">Case context</div>
+        <form id="triageForm">
+          <div class="mode-fields active" id="complaintFields">
+            <div class="section-label">Caller identity gate</div>
+            <div class="field-grid">
+              <label>Caller name
+                <input id="callerName" value="Maria Santos" autocomplete="name" />
+              </label>
+              <label>Caller address
+                <input id="callerAddress" value="45 North Oak Avenue, Demo City, FL" autocomplete="street-address" />
+              </label>
+              <label>Callback phone
+                <input id="callerPhone" value="(555) 010-7712" autocomplete="tel" />
+              </label>
+              <label>Complaint property address
+                <input id="complaintAddress" value="123 Sample Street, Demo City, FL" autocomplete="street-address" />
+              </label>
+            </div>
+            <label>Complaint call transcript
+              <textarea id="complaintTranscript">Caller says the grass is overgrown, there is debris near the side yard, and water seems to run from the property toward the street after storms. Caller provided name, home address, callback number, and the property address for review.</textarea>
+            </label>
+            <div class="actions">
+              <button type="button" class="button secondary" id="loadComplaintSample">Load complaint sample</button>
+              <button type="button" class="button ghost" id="makeAnonymousSample">Show anonymous boundary</button>
+            </div>
+            <span class="hint">Sandbox rule: if caller name or caller address is missing, CodeFlow flags the Florida anonymous-complaint boundary before normal enforcement routing.</span>
+          </div>
+
+          <div class="mode-fields" id="fieldFields">
+            <div class="section-label">Officer field capture</div>
+            <div class="field-grid">
+              <label>Officer / staff user
+                <input id="officerName" value="Officer Demo" />
+              </label>
+              <label>Observed property address
+                <input id="fieldAddress" value="123 Sample Street, Demo City, FL" autocomplete="street-address" />
+              </label>
+            </div>
+            <label>Upload site photos
+              <input id="photos" type="file" accept="image/*" multiple />
+              <span class="hint">Photos stay in your browser in this static demo. They are previewed only.</span>
+            </label>
+            <div id="photoPreview" class="photo-grid" aria-live="polite"></div>
+            <label>Push-to-talk / typed observation
+              <textarea id="fieldObservation">I’m at 123 Sample Street. Possible overgrowth, debris near the side yard, and maybe stormwater runoff issue. Help me look into it.</textarea>
+            </label>
+            <div class="actions">
+              <button type="button" class="button secondary" id="voiceButton">Start voice note</button>
+              <button type="button" class="button ghost" id="loadFieldSample">Load field sample</button>
+            </div>
+            <span class="hint" id="voiceHint">Voice input uses your browser's speech recognition if available. Typing always works.</span>
+          </div>
+
+          <div class="section-label">Sandbox controls</div>
           <div class="field-grid">
-            <label>Jurisdiction / City
-              <input id="jurisdiction" value="Demo City Code Enforcement" autocomplete="organization" />
+            <label>Generic city zone layer
+              <select id="zoneLayer">
+                <option value="auto">Auto-map from address/scenario</option>
+                <option value="north">North Residential Zone</option>
+                <option value="central">Central Commercial Zone</option>
+                <option value="waterfront">Waterfront / Stormwater Review Zone</option>
+                <option value="south">South Neighborhood Zone</option>
+              </select>
             </label>
-            <label>Case number
-              <input id="caseNumber" value="DEMO-2026-001" />
-            </label>
-            <label>Property address
-              <input id="address" value="123 Sample Plaza, Demo City, FL" autocomplete="street-address" />
-            </label>
-            <label>Parcel ID
-              <input id="parcelId" value="00-00-00-0000-0000-0000" />
-            </label>
-            <label>Owner / responsible party
-              <input id="owner" value="Sample Property Holdings LLC" />
-            </label>
-            <label>Inspector / staff reviewer
-              <input id="inspector" value="Inspector Demo" />
+            <label>Output style
+              <select id="style">
+                <option value="handoff">Officer handoff preview</option>
+                <option value="packet">Review-ready case packet draft</option>
+                <option value="supervisor">Supervisor triage summary</option>
+              </select>
             </label>
           </div>
-
-          <div class="section-label">Field photos</div>
-          <label>Upload site photos
-            <input id="photos" type="file" accept="image/*" multiple />
-            <span class="hint">Photos stay in your browser in this static demo. They are previewed only.</span>
-          </label>
-          <div id="photoPreview" class="photo-grid" aria-live="polite"></div>
-
-          <div class="section-label">Voice / typed observations</div>
-          <label>Inspector observations
-            <textarea id="observations">Rear dumpster enclosure gate appears open. Vegetation is overgrown along the south side. Debris or palm fronds are visible near parking spaces. There is a black hose or cable-looking object near the wall that needs verification before citing.</textarea>
-          </label>
           <div class="actions">
-            <button type="button" class="button secondary" id="voiceButton">Start voice note</button>
-            <button type="button" class="button ghost" id="sampleButton">Load stronger sample</button>
-          </div>
-          <span class="hint" id="voiceHint">Voice input uses your browser's speech recognition if available. Typing always works.</span>
-
-          <div class="section-label">Observed issue categories</div>
-          <div class="check-row">
-            <label class="check"><input type="checkbox" name="issues" value="Overgrown vegetation" checked /> Overgrown vegetation</label>
-            <label class="check"><input type="checkbox" name="issues" value="Debris / litter / dead vegetation" checked /> Debris / litter / dead vegetation</label>
-            <label class="check"><input type="checkbox" name="issues" value="Outside storage" /> Outside storage</label>
-            <label class="check"><input type="checkbox" name="issues" value="Dumpster enclosure / screening" checked /> Dumpster enclosure / screening</label>
-            <label class="check"><input type="checkbox" name="issues" value="Possible structural / wall concern" /> Possible structural / wall concern</label>
-            <label class="check"><input type="checkbox" name="issues" value="Ambiguous object needs verification" checked /> Ambiguous object needs verification</label>
-          </div>
-
-          <div class="section-label">Output mode</div>
-          <label>Packet style
-            <select id="style">
-              <option value="field-review">Field review packet</option>
-              <option value="case-packet">Review-ready case packet</option>
-              <option value="supervisor-summary">Supervisor summary</option>
-            </select>
-          </label>
-
-          <div class="actions">
-            <button class="button primary" type="submit">Generate review packet</button>
+            <button class="button primary" type="submit">Generate CodeFlow triage</button>
             <button class="button danger" type="button" id="clearButton">Clear local demo</button>
           </div>
         </form>
@@ -188,42 +252,42 @@
         <div class="card score-card">
           <div class="score-top">
             <div>
-              <h2>Packet readiness</h2>
-              <p>Readiness increases when the case has address/owner context, observations, photos, issue categories, and review controls.</p>
+              <h2>Routing readiness</h2>
+              <p>Readiness increases when identity/address rules are satisfied, the property can be mapped, issue families are detected, and review gates are clear.</p>
             </div>
-            <div class="score" id="readinessScore">72<small>%</small></div>
+            <div class="score" id="readinessScore">82<small>%</small></div>
           </div>
           <div class="mini-grid">
+            <div class="metric"><strong id="identityMetric">Ready</strong><span>identity gate</span></div>
+            <div class="metric"><strong id="zoneMetric">North</strong><span>zone</span></div>
+            <div class="metric"><strong id="issueCount">3</strong><span>issue families</span></div>
             <div class="metric"><strong id="photoCount">0</strong><span>photos</span></div>
-            <div class="metric"><strong id="issueCount">4</strong><span>possible issues</span></div>
-            <div class="metric"><strong id="riskCount">2</strong><span>review flags</span></div>
-            <div class="metric"><strong>0</strong><span>auto-sends</span></div>
           </div>
         </div>
 
         <div class="card">
-          <h2>Suggested issue review</h2>
-          <p>These are possible findings for staff verification, not final citations.</p>
-          <div id="findingList" class="finding-list"></div>
+          <h2>Officer / queue handoff</h2>
+          <p>This is a routing preview for staff review, not an official violation decision.</p>
+          <div id="handoffList" class="finding-list"></div>
         </div>
 
         <div class="card compliance">
-          <h2>Human approval checklist</h2>
-          <p>CodeFlow must keep this gate before official action.</p>
+          <h2>Review-required gates</h2>
+          <p>CodeFlow surfaces what must be checked before official action.</p>
           <ul id="checklist"></ul>
         </div>
 
         <div class="card">
-          <h2>Draft packet text</h2>
-          <p>Copy this into a proposal, prototype walkthrough, or internal review note.</p>
+          <h2>Draft triage output</h2>
+          <p>Use this for the private walkthrough or copy it into a prospect-facing demo note.</p>
           <div class="actions">
-            <button class="button secondary" type="button" id="copyButton">Copy packet</button>
+            <button class="button secondary" type="button" id="copyButton">Copy triage</button>
             <button class="button ghost" type="button" id="downloadButton">Download .txt</button>
           </div>
           <div id="packetOutput" class="output-block" aria-live="polite"></div>
         </div>
 
-        <p class="footer-note"><strong>Demo boundary:</strong> This page runs in the browser only. It does not validate municipal code, provide legal interpretations, send official documents, store official records, or replace authorized municipal staff review.</p>
+        <p class="footer-note"><strong>Demo boundary:</strong> This page runs in the browser only. It uses fake zones, fake parcel/GIS matching, and sample officer assignments. It does not create official records, interpret law, validate municipal code, issue notices, store evidence, or replace authorized staff review.</p>
       </div>
     </section>
   </main>
@@ -232,55 +296,76 @@
 
   <script>
     const $ = (id) => document.getElementById(id);
-    const form = $('inspectionForm');
-    const photoInput = $('photos');
-    const photoPreview = $('photoPreview');
-    const packetOutput = $('packetOutput');
-    const findingList = $('findingList');
-    const checklist = $('checklist');
-    const toast = $('toast');
+    let activeMode = 'complaint';
     let photoFiles = [];
     let latestPacket = '';
 
-    const issueLibrary = {
-      'Overgrown vegetation': {
-        confidence: 'Medium',
-        review: 'Verify height/extent against the jurisdiction-specific vegetation standard and cure period.',
-        draft: 'Overgrown vegetation appears present and should be reviewed against the maintained vegetation code section.'
-      },
-      'Debris / litter / dead vegetation': {
-        confidence: 'Medium',
-        review: 'Verify whether material is debris, landscape waste, or normal maintenance residue before citing.',
-        draft: 'Debris, litter, or dead vegetation appears visible and may require removal or cleanup after staff verification.'
-      },
-      'Outside storage': {
-        confidence: 'Low',
-        review: 'Confirm whether items are stored outside, temporarily staged, tenant-owned, or permitted.',
-        draft: 'Possible outside storage should be reviewed for responsible party, duration, and applicable screening/storage rule.'
-      },
-      'Dumpster enclosure / screening': {
-        confidence: 'Medium',
-        review: 'Confirm gate/screening status at time of inspection and whether the condition is temporary or persistent.',
-        draft: 'Dumpster enclosure or screening appears unsecured/open and may require closure, repair, or screening correction.'
-      },
-      'Possible structural / wall concern': {
-        confidence: 'Low',
-        review: 'Do not cite based on image alone. Confirm with closer inspection, qualified staff, or applicable building process.',
-        draft: 'A possible structural or wall condition was observed and requires additional staff verification before any case-packet language is finalized.'
-      },
-      'Ambiguous object needs verification': {
-        confidence: 'Low',
-        review: 'Object identity is ambiguous. Example: black cable vs black water hose. Inspector must verify before citation.',
-        draft: 'An ambiguous object is visible. No citation should rely on this object until staff confirms what it is and whether it violates any maintained rule.'
-      }
+    const zones = {
+      north: { label:'North Residential Zone', short:'North', officer:'Officer Maya Rivera', queue:'Residential Property Maintenance Queue', layer:'Fake GIS layer: North residential sector' },
+      central: { label:'Central Commercial Zone', short:'Central', officer:'Officer Jordan Chen', queue:'Commercial Corridor Review Queue', layer:'Fake GIS layer: Central business corridor' },
+      waterfront: { label:'Waterfront / Stormwater Review Zone', short:'Waterfront', officer:'Officer Sam Patel + Stormwater Review', queue:'Environmental / Stormwater Review Queue', layer:'Fake GIS layer: drainage basin and waterfront overlay' },
+      south: { label:'South Neighborhood Zone', short:'South', officer:'Officer Elena Alvarez', queue:'South Neighborhood Case Queue', layer:'Fake GIS layer: South residential sector' }
     };
 
-    function getCheckedIssues() {
-      return Array.from(document.querySelectorAll('input[name="issues"]:checked')).map((el) => el.value);
-    }
+    const issueRules = [
+      { family:'Overgrowth / vegetation', keywords:['overgrown','overgrowth','grass','vegetation','weeds','yard'], gate:'Verify height, location, cure period, and jurisdiction-specific vegetation standard.', confidence:'Medium' },
+      { family:'Debris / litter / dead vegetation', keywords:['debris','trash','litter','dumping','palm fronds','dead vegetation','side yard'], gate:'Confirm material type, responsible party, and whether it is temporary staging or a maintained violation.', confidence:'Medium' },
+      { family:'Stormwater / illicit discharge review', keywords:['stormwater','runoff','drain','ditch','canal','water','discharge','oil','ponding'], gate:'Route for stormwater/environmental review. Do not pretend certainty from a basic complaint or photo.', confidence:'Low' },
+      { family:'Dumpster / screening', keywords:['dumpster','screening','gate','enclosure'], gate:'Confirm enclosure status, screening requirement, and whether condition persists.', confidence:'Medium' },
+      { family:'Outside storage', keywords:['storage','stored','materials','items','equipment'], gate:'Confirm whether items are stored, permitted, screened, or temporarily staged.', confidence:'Low' },
+      { family:'Permit / building dependency', keywords:['shed','fence','construction','structure','wall','addition','roof'], gate:'Check permit/building records before case language is finalized.', confidence:'Low' },
+      { family:'Parking / vehicle issue', keywords:['vehicle','car','truck','rv','trailer','parking','inoperable'], gate:'Check local parking/inoperable-vehicle rules and property line context.', confidence:'Medium' },
+      { family:'Nuisance / noise / activity', keywords:['noise','party','music','activity','business operating'], gate:'Confirm department ownership and whether another agency or time-of-day rule applies.', confidence:'Low' }
+    ];
 
     function escapeText(value) {
       return String(value || '').replace(/[&<>"']/g, (char) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' }[char]));
+    }
+
+    function normalize(value) {
+      return String(value || '').toLowerCase();
+    }
+
+    function getScenarioText() {
+      if (activeMode === 'complaint') return $('complaintTranscript').value.trim();
+      return $('fieldObservation').value.trim();
+    }
+
+    function getAddress() {
+      return activeMode === 'complaint' ? $('complaintAddress').value.trim() : $('fieldAddress').value.trim();
+    }
+
+    function identityGate() {
+      if (activeMode === 'field') {
+        return { ready:true, label:'Staff', detail:'Officer/staff capture path. Official action still requires staff review.' };
+      }
+      const hasName = Boolean($('callerName').value.trim());
+      const hasAddress = Boolean($('callerAddress').value.trim());
+      const hasProperty = Boolean($('complaintAddress').value.trim());
+      return {
+        ready: hasName && hasAddress && hasProperty,
+        label: hasName && hasAddress ? 'Ready' : 'Blocked',
+        detail: hasName && hasAddress
+          ? 'Caller identity and caller address captured for normal routing.'
+          : 'Anonymous-complaint boundary flagged. Collect caller name and caller address before treating this as official-case ready.'
+      };
+    }
+
+    function determineZone(address, text) {
+      const override = $('zoneLayer').value;
+      if (override !== 'auto') return zones[override];
+      const combined = normalize(`${address} ${text}`);
+      if (combined.match(/stormwater|runoff|water seems|standing water|drain|canal|lake|bay|waterfront|discharge|ditch/)) return zones.waterfront;
+      if (combined.match(/central|main|plaza|market|commercial|downtown|business/)) return zones.central;
+      if (combined.match(/south|palm|sunset|ridge/)) return zones.south;
+      return zones.north;
+    }
+
+    function detectIssues(text) {
+      const lower = normalize(text);
+      const found = issueRules.filter((rule) => rule.keywords.some((keyword) => lower.includes(keyword)));
+      if (found.length) return found;
+      return [{ family:'General complaint / observation', keywords:[], gate:'Staff must classify the issue family after reviewing the caller or officer narrative.', confidence:'Low' }];
     }
 
     function confidenceClass(confidence) {
@@ -289,13 +374,28 @@
       return 'good';
     }
 
+    function setMode(mode) {
+      activeMode = mode;
+      $('complaintDoor').classList.toggle('active', mode === 'complaint');
+      $('fieldDoor').classList.toggle('active', mode === 'field');
+      $('complaintFields').classList.toggle('active', mode === 'complaint');
+      $('fieldFields').classList.toggle('active', mode === 'field');
+      $('formTitle').textContent = mode === 'complaint' ? 'Resident complaint intake' : 'Field officer capture';
+      $('formSubtitle').textContent = mode === 'complaint'
+        ? 'Capture the call, enforce the identity/address gate, and route to the right zone queue.'
+        : 'Turn photos and push-to-talk notes into a structured draft with review gates.';
+      $('modeBadge').textContent = mode === 'complaint' ? 'Complaint path' : 'Field path';
+      renderTriage();
+    }
+
     function renderPhotos() {
+      const photoPreview = $('photoPreview');
       photoPreview.innerHTML = '';
       photoFiles.forEach((file, index) => {
         const card = document.createElement('div');
         card.className = 'photo-card';
         const img = document.createElement('img');
-        img.alt = `Inspection photo ${index + 1}: ${file.name}`;
+        img.alt = `Field photo ${index + 1}: ${file.name}`;
         const label = document.createElement('span');
         label.textContent = `${index + 1}. ${file.name}`;
         card.appendChild(img);
@@ -305,127 +405,190 @@
         reader.onload = () => { img.src = reader.result; };
         reader.readAsDataURL(file);
       });
-      $('photoCount').textContent = String(photoFiles.length);
-      updateReadiness();
+      renderTriage();
     }
 
-    function buildFindings(issues) {
-      findingList.innerHTML = '';
-      issues.forEach((issue, index) => {
-        const data = issueLibrary[issue] || { confidence:'Low', review:'Needs staff verification.', draft:'Possible issue requires staff review.' };
-        const item = document.createElement('div');
-        item.className = 'finding';
-        item.innerHTML = `<div class="num">${index + 1}</div><div><strong>${escapeText(issue)} <span class="badge ${confidenceClass(data.confidence)}">${data.confidence} confidence</span></strong><p>${escapeText(data.review)}</p></div>`;
-        findingList.appendChild(item);
-      });
-      $('issueCount').textContent = String(issues.length);
-      const risk = issues.filter((issue) => (issueLibrary[issue] || {}).confidence === 'Low').length + (photoFiles.length ? 0 : 1);
-      $('riskCount').textContent = String(risk);
+    function buildChecklist(gate, zone, issues, address) {
+      const items = [];
+      if (!gate.ready) items.push(gate.detail);
+      items.push(address ? `Verify property address and parcel match from official municipal source: ${address}.` : 'Property address missing. Capture address before GIS/zone routing.');
+      items.push(`Confirm sample zone routing before assigning work: ${zone.label}.`);
+      issues.forEach((issue) => items.push(`${issue.family}: ${issue.gate}`));
+      items.push('Check for existing case, permit dependency, ownership/responsible party, and department-specific SOP.');
+      items.push('Authorized municipal staff must approve final language before posting, mailing, exporting, or case-system entry.');
+      $('checklist').innerHTML = items.map((item) => `<li>${escapeText(item)}</li>`).join('');
+      return items;
     }
 
-    function buildChecklist() {
-      const items = [
-        'Verify property address, parcel ID, owner/responsible party, and mailing address from official/local source.',
-        'Confirm every visible condition in the field; do not rely on image interpretation alone.',
-        'Confirm ambiguous objects before citing — e.g., black cable vs black water hose.',
-        'Use only jurisdiction-approved code sections, correction language, cure periods, and templates.',
-        'Review whether owner, tenant, manager, or another party is responsible for each issue.',
-        'Authorized municipal staff must approve final language before posting, mailing, emailing, or case-system export.',
-        'Preserve photos, notes, AI suggestions, human edits, and final approval in the audit trail.'
+    function buildHandoff(gate, zone, issues, address) {
+      const rows = [
+        { title:'Intake path', detail: activeMode === 'complaint' ? 'Resident complaint call captured for intake review.' : 'Field officer observation captured from phone/tablet workflow.' },
+        { title:'Identity / authority gate', detail: gate.detail, badge: gate.ready ? 'Ready' : 'Blocked', confidence: gate.ready ? 'High' : 'Low' },
+        { title:'Address / GIS match', detail: address ? `${address} -> ${zone.layer}` : 'No property address entered. Cannot route confidently.', badge: address ? 'Matched' : 'Missing', confidence: address ? 'Medium' : 'Low' },
+        { title:'Officer / queue assignment', detail: `${zone.officer} -> ${zone.queue}`, badge: zone.short, confidence:'Medium' }
       ];
-      checklist.innerHTML = items.map((item) => `<li>${escapeText(item)}</li>`).join('');
+      issues.forEach((issue) => rows.push({ title: issue.family, detail: issue.gate, badge:`${issue.confidence} confidence`, confidence: issue.confidence }));
+      $('handoffList').innerHTML = rows.map((row, index) => `<div class="finding"><div class="num">${index + 1}</div><div><strong>${escapeText(row.title)} <span class="badge ${confidenceClass(row.confidence || 'Medium')}">${escapeText(row.badge || 'Review')}</span></strong><p>${escapeText(row.detail)}</p></div></div>`).join('');
+      return rows;
     }
 
-    function updateReadiness() {
-      const fields = ['jurisdiction','caseNumber','address','parcelId','owner','inspector','observations'];
-      const filled = fields.filter((id) => $(id).value.trim()).length;
-      const issues = getCheckedIssues().length;
-      let score = Math.round((filled / fields.length) * 48 + Math.min(photoFiles.length, 4) * 8 + Math.min(issues, 5) * 4);
-      score = Math.max(0, Math.min(100, score));
-      $('readinessScore').innerHTML = `${score}<small>%</small>`;
-      return score;
+    function computeReadiness(gate, address, issues) {
+      let score = 20;
+      if (gate.ready) score += 24;
+      if (address) score += 22;
+      if (issues.length) score += Math.min(issues.length, 4) * 7;
+      if (activeMode === 'field') score += Math.min(photoFiles.length, 3) * 6;
+      if (issues.some((issue) => issue.family.includes('Stormwater'))) score -= 8;
+      if (!gate.ready) score -= 18;
+      return Math.max(0, Math.min(100, Math.round(score)));
     }
 
-    function buildPacket() {
-      const issues = getCheckedIssues();
+    function buildPacket(gate, zone, issues, checklistItems, readiness) {
       const now = new Date();
+      const address = getAddress() || '[missing]';
+      const text = getScenarioText() || '[missing]';
       const style = $('style').value;
-      const observations = $('observations').value.trim();
-      const issueLines = issues.map((issue, index) => {
-        const data = issueLibrary[issue];
-        return `${index + 1}. ${issue}\n   Confidence: ${data.confidence}\n   Draft note: ${data.draft}\n   Required staff check: ${data.review}`;
-      }).join('\n\n');
-      const photoLines = photoFiles.length
-        ? photoFiles.map((file, index) => `Photo ${index + 1}: ${file.name}`).join('\n')
-        : 'No photos attached in this demo. Add photos before treating a packet as evidence-ready.';
-
-      const heading = style === 'case-packet' ? 'REVIEW-READY CASE PACKET DRAFT' : style === 'supervisor-summary' ? 'SUPERVISOR REVIEW SUMMARY' : 'FIELD REVIEW PACKET';
-
-      return `${heading}\nKyber CodeFlow Demo Packet\nGenerated: ${now.toLocaleString()}\n\nCASE CONTEXT\nJurisdiction: ${$('jurisdiction').value.trim() || '[missing]'}\nCase number: ${$('caseNumber').value.trim() || '[missing]'}\nProperty address: ${$('address').value.trim() || '[missing]'}\nParcel ID: ${$('parcelId').value.trim() || '[missing]'}\nOwner/responsible party: ${$('owner').value.trim() || '[missing]'}\nInspector/reviewer: ${$('inspector').value.trim() || '[missing]'}\n\nFIELD OBSERVATIONS\n${observations || '[missing]'}\n\nPHOTO EVIDENCE\n${photoLines}\n\nPOSSIBLE ISSUES FOR STAFF REVIEW\n${issueLines || 'No issue categories selected.'}\n\nDRAFT NARRATIVE\nBased on the field observations and attached photos, CodeFlow prepared this draft packet for human review. The selected categories may indicate maintenance, screening, storage, debris, vegetation, or other code-enforcement issues, but no violation is confirmed until authorized staff verify the site condition, responsible party, applicable jurisdiction-specific code section, cure period, and final case-packet language.\n\nAPPROVAL GATE\n[ ] Address/parcel/owner verified from official source\n[ ] Photos reviewed and matched to each alleged issue\n[ ] Ambiguous objects verified in the field\n[ ] Code sections pulled from maintained city library\n[ ] Cure period and correction language confirmed\n[ ] Owner/tenant/responsible party confirmed\n[ ] Supervisor/officer approved final case-packet language\n\nDEMO BOUNDARY\nThis is a browser-only Kyber CodeFlow prototype. It does not issue official documents, validate municipal law, replace authorized staff judgment, or send/post/mail anything automatically.`;
+      const title = style === 'packet' ? 'REVIEW-READY CASE PACKET DRAFT' : style === 'supervisor' ? 'SUPERVISOR TRIAGE SUMMARY' : 'OFFICER HANDOFF PREVIEW';
+      const photoLines = activeMode === 'field'
+        ? (photoFiles.length ? photoFiles.map((file, index) => `Photo ${index + 1}: ${file.name}`).join('\n') : 'No photos attached in this demo. Add photos before treating this as evidence-ready.')
+        : 'Complaint-call path. No field photos in this intake step.';
+      const identityLines = activeMode === 'complaint'
+        ? `Caller name: ${$('callerName').value.trim() || '[missing]'}\nCaller address: ${$('callerAddress').value.trim() || '[missing]'}\nCallback: ${$('callerPhone').value.trim() || '[missing]'}\nAnonymous complaint gate: ${gate.ready ? 'passed for normal routing' : 'FLAGGED - collect caller name and caller address before official-case-ready routing'}`
+        : `Officer/staff user: ${$('officerName').value.trim() || '[missing]'}\nStaff capture path: authenticated staff review still required`;
+      const issueLines = issues.map((issue, index) => `${index + 1}. ${issue.family}\n   Confidence: ${issue.confidence}\n   Review gate: ${issue.gate}`).join('\n\n');
+      const checklistLines = checklistItems.map((item) => `[ ] ${item}`).join('\n');
+      return `${title}\nKyber CodeFlow Private Sandbox\nGenerated: ${now.toLocaleString()}\nReadiness: ${readiness}%\n\nINTAKE PATH\n${activeMode === 'complaint' ? 'Resident Complaint Call' : 'Field Officer Capture'}\n\nIDENTITY / AUTHORITY\n${identityLines}\n\nPROPERTY / GIS / ZONE\nProperty address: ${address}\nParcel/GIS match: sample sandbox match only\nZone: ${zone.label}\nAssigned officer/queue: ${zone.officer} -> ${zone.queue}\nLayer note: ${zone.layer}\n\nSCENARIO / TRANSCRIPT\n${text}\n\nPHOTO / EVIDENCE INPUT\n${photoLines}\n\nPOSSIBLE ISSUE FAMILIES FOR STAFF REVIEW\n${issueLines}\n\nCODEFLOW TRIAGE\nAddress verified -> parcel/GIS matched -> zone identified -> issue family suggested -> review gates surfaced -> officer/queue assigned.\n\nREVIEW-REQUIRED CHECKLIST\n${checklistLines}\n\nDEMO BOUNDARY\nThis is a private browser-only sandbox with fake city zones and sample routing. It does not create official records, interpret law, issue violation decisions, mail notices, impose penalties, or replace authorized municipal staff review.`;
     }
 
-    function renderPacket(event) {
+    function renderTriage(event) {
       if (event) event.preventDefault();
-      const issues = getCheckedIssues();
-      buildFindings(issues);
-      buildChecklist();
-      updateReadiness();
-      latestPacket = buildPacket();
-      packetOutput.textContent = latestPacket;
+      const gate = identityGate();
+      const address = getAddress();
+      const text = getScenarioText();
+      const zone = determineZone(address, text);
+      const issues = detectIssues(text);
+      const readiness = computeReadiness(gate, address, issues);
+      $('readinessScore').innerHTML = `${readiness}<small>%</small>`;
+      $('identityMetric').textContent = gate.label;
+      $('identityMetric').className = gate.ready ? '' : 'hot';
+      $('zoneMetric').textContent = zone.short;
+      $('issueCount').textContent = String(issues.length);
+      $('photoCount').textContent = activeMode === 'field' ? String(photoFiles.length) : 'N/A';
+      const handoff = buildHandoff(gate, zone, issues, address);
+      const checklistItems = buildChecklist(gate, zone, issues, address);
+      latestPacket = buildPacket(gate, zone, issues, checklistItems, readiness);
+      $('packetOutput').textContent = latestPacket;
+      return { gate, address, zone, issues, readiness, handoff };
     }
 
     function showToast(message) {
+      const toast = $('toast');
       toast.textContent = message;
       toast.classList.add('show');
       window.setTimeout(() => toast.classList.remove('show'), 1700);
     }
 
-    photoInput.addEventListener('change', () => {
-      photoFiles = Array.from(photoInput.files || []);
-      renderPhotos();
-      renderPacket();
+    $('complaintDoor').addEventListener('click', () => setMode('complaint'));
+    $('fieldDoor').addEventListener('click', () => setMode('field'));
+    $('triageForm').addEventListener('submit', renderTriage);
+    $('triageForm').addEventListener('input', renderTriage);
+    $('zoneLayer').addEventListener('change', renderTriage);
+    $('style').addEventListener('change', renderTriage);
+
+    $('loadComplaintSample').addEventListener('click', () => {
+      $('callerName').value = 'Maria Santos';
+      $('callerAddress').value = '45 North Oak Avenue, Demo City, FL';
+      $('callerPhone').value = '(555) 010-7712';
+      $('complaintAddress').value = '123 Sample Street, Demo City, FL';
+      $('complaintTranscript').value = 'Caller says the grass is overgrown, there is debris near the side yard, and water seems to run from the property toward the street after storms. Caller provided name, home address, callback number, and the property address for review.';
+      $('zoneLayer').value = 'auto';
+      renderTriage();
+      showToast('Complaint sample loaded');
     });
 
-    form.addEventListener('submit', renderPacket);
-    form.addEventListener('input', updateReadiness);
+    $('makeAnonymousSample').addEventListener('click', () => {
+      $('callerName').value = '';
+      $('callerAddress').value = '';
+      $('callerPhone').value = '';
+      $('complaintAddress').value = '500 Central Plaza, Demo City, FL';
+      $('complaintTranscript').value = 'Anonymous caller reports trash and outside storage behind a commercial building but refuses to provide name or address. CodeFlow should capture the note for staff review and flag that normal official complaint routing is not ready until required caller information is collected.';
+      $('zoneLayer').value = 'auto';
+      renderTriage();
+      showToast('Anonymous boundary shown');
+    });
+
+    $('loadFieldSample').addEventListener('click', () => {
+      $('officerName').value = 'Officer Demo';
+      $('fieldAddress').value = '123 Sample Street, Demo City, FL';
+      $('fieldObservation').value = 'I’m at 123 Sample Street. Possible overgrowth, debris near the side yard, and maybe stormwater runoff issue. Help me look into it.';
+      $('zoneLayer').value = 'auto';
+      renderTriage();
+      showToast('Field sample loaded');
+    });
+
+    $('freshButton').addEventListener('click', () => {
+      if (activeMode === 'complaint') {
+        $('callerName').value = '';
+        $('callerAddress').value = '';
+        $('callerPhone').value = '';
+        $('complaintAddress').value = '';
+        $('complaintTranscript').value = '';
+        $('complaintAddress').focus();
+      } else {
+        $('fieldAddress').value = '';
+        $('fieldObservation').value = '';
+        $('fieldAddress').focus();
+      }
+      $('zoneLayer').value = 'auto';
+      renderTriage();
+      showToast('Fresh scenario ready');
+    });
+
+    $('clearButton').addEventListener('click', () => {
+      photoFiles = [];
+      $('photos').value = '';
+      $('photoPreview').innerHTML = '';
+      if (activeMode === 'complaint') {
+        $('callerName').value = '';
+        $('callerAddress').value = '';
+        $('callerPhone').value = '';
+        $('complaintAddress').value = '';
+        $('complaintTranscript').value = '';
+      } else {
+        $('officerName').value = '';
+        $('fieldAddress').value = '';
+        $('fieldObservation').value = '';
+      }
+      renderTriage();
+      showToast('Local demo cleared');
+    });
+
+    $('photos').addEventListener('change', () => {
+      photoFiles = Array.from($('photos').files || []);
+      renderPhotos();
+    });
 
     $('copyButton').addEventListener('click', async () => {
-      if (!latestPacket) renderPacket();
+      if (!latestPacket) renderTriage();
       try {
         await navigator.clipboard.writeText(latestPacket);
-        showToast('Packet copied');
+        showToast('Triage copied');
       } catch (error) {
         showToast('Copy blocked by browser');
       }
     });
 
     $('downloadButton').addEventListener('click', () => {
-      if (!latestPacket) renderPacket();
+      if (!latestPacket) renderTriage();
       const blob = new Blob([latestPacket], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `kyber-codeflow-demo-${Date.now()}.txt`;
+      link.download = `kyber-codeflow-dual-door-demo-${Date.now()}.txt`;
       document.body.appendChild(link);
       link.click();
       link.remove();
       URL.revokeObjectURL(url);
-    });
-
-    $('clearButton').addEventListener('click', () => {
-      photoFiles = [];
-      photoInput.value = '';
-      photoPreview.innerHTML = '';
-      $('observations').value = '';
-      renderPacket();
-      showToast('Local demo cleared');
-    });
-
-    $('sampleButton').addEventListener('click', () => {
-      $('observations').value = 'Front landscape bed has overgrown vegetation and dead palm fronds. Rear dumpster gate is open and appears to have deteriorated wood. There are stored materials near the tenant rear door. A dark object along the wall may be a hose or cable and should be verified before citing. Debris is visible near the parking spaces.';
-      document.querySelectorAll('input[name="issues"]').forEach((box) => { box.checked = true; });
-      renderPacket();
-      showToast('Sample loaded');
     });
 
     $('voiceButton').addEventListener('click', () => {
@@ -441,17 +604,17 @@
       $('voiceHint').textContent = 'Listening... speak the field observation.';
       recognition.onresult = (event) => {
         const transcript = Array.from(event.results).map((result) => result[0].transcript).join(' ');
-        const existing = $('observations').value.trim();
-        $('observations').value = existing ? `${existing}\n${transcript}` : transcript;
+        const existing = $('fieldObservation').value.trim();
+        $('fieldObservation').value = existing ? `${existing}\n${transcript}` : transcript;
         $('voiceHint').textContent = 'Voice note added. Review/correct the transcript before generating the packet.';
-        renderPacket();
+        renderTriage();
       };
       recognition.onerror = () => { $('voiceHint').textContent = 'Voice input failed or was blocked. Typing still works.'; };
       recognition.onend = () => { if ($('voiceHint').textContent === 'Listening... speak the field observation.') $('voiceHint').textContent = 'Voice input ended.'; };
       recognition.start();
     });
 
-    renderPacket();
+    renderTriage();
   </script>
 </body>
 </html>
