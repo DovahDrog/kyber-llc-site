@@ -197,6 +197,15 @@ class SecuritySiteTests(unittest.TestCase):
         for key in ["offers", "aggregateRating", "review", "award", "hasCredential"]:
             self.assertNotIn(key, schema)
 
+    def test_email_contacts_do_not_require_a_csp_blocked_decoder(self):
+        for relative in PUBLIC_PAGES:
+            source = (ROOT / relative).read_text()
+            self.assertIn('<body><!--email_off-->', source)
+            self.assertIn('<!--/email_off--></body>', source)
+            body = source.split('<!--email_off-->', 1)[1].split('<!--/email_off-->', 1)[0]
+            self.assertIn('mailto:harley@kyber-llc.com', body)
+            self.assertNotIn('/cdn-cgi/l/email-protection', body)
+
     def test_physical_and_combined_readiness_is_not_claimed(self):
         for path in [p for p in PUBLIC_PAGES if p not in ['privacy.html', 'terms.html']]:
             with self.subTest(path=path):
