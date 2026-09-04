@@ -197,6 +197,24 @@ class SecuritySiteTests(unittest.TestCase):
         for key in ["offers", "aggregateRating", "review", "award", "hasCredential"]:
             self.assertNotIn(key, schema)
 
+    def test_home_contact_actions_have_explicit_separation(self):
+        source = (ROOT / 'index.html').read_text()
+        group = re.search(r'<div class="contact-actions">(.*?)</div>', source, re.S)
+        self.assertIsNotNone(group, 'Contact button and email need a layout container')
+        assert group is not None
+        links = re.findall(r'<a\b[^>]*href="([^"]+)"', group.group(1))
+        self.assertEqual(links, [
+            'mailto:harley@kyber-llc.com?subject=Security%20assessment%20scope',
+            'mailto:harley@kyber-llc.com',
+        ])
+        css = (ROOT / 'assets/security-services.css').read_text()
+        rule = re.search(r'\.contact-actions\s*\{([^}]+)\}', css)
+        self.assertIsNotNone(rule)
+        assert rule is not None
+        for declaration in ['display: flex;', 'flex-direction: column;', 'gap: 1rem;']:
+            self.assertIn(declaration, rule.group(1))
+        self.assertIn('/assets/security-services.css?v=2', source)
+
     def test_email_contacts_do_not_require_a_csp_blocked_decoder(self):
         for relative in PUBLIC_PAGES:
             source = (ROOT / relative).read_text()
