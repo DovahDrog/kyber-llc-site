@@ -221,7 +221,7 @@ class SecuritySiteTests(unittest.TestCase):
         assert rule is not None
         for declaration in ['display: flex;', 'flex-direction: column;', 'gap: 1rem;']:
             self.assertIn(declaration, rule.group(1))
-        self.assertIn('/assets/security-services.css?v=3', source)
+        self.assertIn('/assets/security-services.css?v=4', source)
 
     def test_email_contacts_do_not_require_a_csp_blocked_decoder(self):
         for relative in PUBLIC_PAGES:

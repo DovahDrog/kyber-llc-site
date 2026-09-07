@@ -76,7 +76,7 @@ class ThreatAndMotionTests(unittest.TestCase):
 
     def test_shared_styles_are_versioned_on_every_public_page(self):
         for rel in PUBLIC_PAGES:
-            self.assertIn('/assets/security-services.css?v=3',(ROOT/rel).read_text())
+            self.assertIn('/assets/security-services.css?v=4',(ROOT/rel).read_text())
 
     def test_exaggerated_display_and_missing_period_are_rejected(self):
         self.data['statistics'][0]['display_value']='≈999,999'
@@ -92,7 +92,7 @@ class ThreatAndMotionTests(unittest.TestCase):
         for rel in PUBLIC_PAGES:
             source=(ROOT/rel).read_text()
             self.assertNotIn('aria-label="Kyber home"',source)
-            self.assertIn('<link rel="icon" href="/assets/kyber-mark.svg"',source)
+            self.assertIn('<link rel="icon" href="/assets/kyber-mark.svg?v=2"',source)
         self.assertTrue((ROOT/'assets/kyber-mark.svg').is_file())
         print_css=self.css[self.css.index('@media print'): ]
         for selector in ['.hero .lead','.page-hero .lead','.page-hero p:not(.eyebrow)']:
