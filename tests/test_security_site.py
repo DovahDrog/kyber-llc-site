@@ -153,7 +153,15 @@ class SecuritySiteTests(unittest.TestCase):
                         self.assertIn('href="' + target + '"', preserved)
                         self.assertRegex(parts.path, r"^\+[1-9]\d{1,14}$")
                         continue
-                    self.assertEqual(parts.netloc, "kyber-llc.com", f"Unexpected external dependency: {target}")
+                    if parts.netloc != "kyber-llc.com":
+                        # Primary-source links are citations, not runtime dependencies.
+                        provenance = json.loads((ROOT / "assets/threat-statistics.json").read_text())
+                        source_urls = {item["source_url"] for item in provenance["statistics"]}
+                        self.assertEqual(tag, "a", f"Unexpected external resource: {target}")
+                        self.assertEqual(parts.scheme, "https")
+                        self.assertIn(resolved, source_urls, f"Unreviewed external citation: {target}")
+                        checked.add((relative, target))
+                        continue
                     path = local_target(resolved)
                     self.assertTrue(path.is_file(), f"Broken target from {relative}: {target}")
                     checked.add((relative, target))
@@ -213,7 +221,7 @@ class SecuritySiteTests(unittest.TestCase):
         assert rule is not None
         for declaration in ['display: flex;', 'flex-direction: column;', 'gap: 1rem;']:
             self.assertIn(declaration, rule.group(1))
-        self.assertIn('/assets/security-services.css?v=2', source)
+        self.assertIn('/assets/security-services.css?v=3', source)
 
     def test_email_contacts_do_not_require_a_csp_blocked_decoder(self):
         for relative in PUBLIC_PAGES:

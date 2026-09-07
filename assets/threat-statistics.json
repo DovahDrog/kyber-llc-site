@@ -1,0 +1,48 @@
+{
+  "verified_on": "2026-09-07",
+  "approved_source_hosts": [
+    "blog.checkpoint.com",
+    "docs.apwg.org"
+  ],
+  "statistics": [
+    {
+      "id": "stat-cyber",
+      "period_value": 2336,
+      "period_days": 7,
+      "daily_method": "weekly_average",
+      "unit": "cyber attacks per organization per day",
+      "scope": "Per organization in Check Point’s observed dataset",
+      "source_id": 30,
+      "source_title": "Check Point Research — July 2026 threat landscape",
+      "published_on": "2026-08-12",
+      "period": "July 2026",
+      "evidence_quote": "Organizations faced an average of 2,336 weekly cyber attacks, up 3% from June and 16% from July 2025.",
+      "interpretation": "Daily average derived from the published weekly average, not successful breaches or a prediction for an individual organization.",
+      "daily_value": 333.7142857142857,
+      "rounded_daily_value": 334,
+      "display_value": "≈334",
+      "source_url": "https://blog.checkpoint.com/security/july-2026-cyber-threats-surge-ransomware-attacks-double-year-over-year-as-genai-data-exposure-widens"
+    },
+    {
+      "id": "stat-phishing",
+      "period_value": 425808,
+      "period_days": 30,
+      "daily_method": "period_average",
+      "period_start": "2026-06-01",
+      "period_end": "2026-06-30",
+      "unit": "reported phishing sites per day",
+      "scope": "Across APWG’s reporting network",
+      "source_id": 41,
+      "source_title": "APWG — Phishing Activity Trends, Q2 2026, pages 2–3",
+      "published_on": "2026-08-28",
+      "period": "June 2026",
+      "evidence_quote": "There were 425,808 attacks recorded in June 2026, which was the highest monthly total since April 2023, when APWG tallied 597,789 attacks.",
+      "interpretation": "Daily average equivalent of unique phishing sites reported in June; APWG uses sites as its attack measure. Not victims, phishing-message volume, or a census of all social engineering.",
+      "daily_value": 14193.6,
+      "rounded_daily_value": 14194,
+      "display_value": "≈14,194",
+      "source_url": "https://docs.apwg.org/reports/apwg_trends_report_q2_2026.pdf"
+    }
+  ],
+  "methodology": "Historical source-scoped averages, not a live counter. Different populations and counting methods; not added together. Phishing represents a form of social engineering, not the whole category. These figures are industry context, not Kyber results or a forecast for a prospect."
+}
