@@ -1,0 +1,176 @@
+{
+  "baseline_revision": "25ab776",
+  "sha256": {
+    ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".well-known/security.txt": "7e045e3de615cd5fd7f474d76dd2ebd4c1a8c6b2016abe2d8fbfe6b2844a6733",
+    "CNAME": "116f3272029310795763d54696c1a490168ca98816b766b592ffb10f4584492c",
+    "assets/codeflow-system.css": "b510c0a1c1436e89c3931fcb60030553d2a18586296d0f4c7e34c6d52013d3ca",
+    "assets/kyber-emblem-ink.svg": "59b7fd41d2139a7ac3a906060ead14031ee160a643e249a942f3e52a44adda34",
+    "assets/kyber-emblem.svg": "b28c076a51ea15d31654cb733aaa0c40ff8cc97a0332ea6205df826f3bcc19f4",
+    "assets/kyber-mark.svg": "662049217c7db76dbc67cc70490f1db8f7f2eb56da97652f3884c4bb6d3ce576",
+    "assets/security-services.css": "f9b3fd4bfbf582f640c7ee258221905b82eec8c25a2916990a14fc5ccbfa9348",
+    "assets/threat-statistics.json": "633f81035d3ce605a942ba8b434ea9f59979ee37c74154ceb6ccb1a3fbb57557",
+    "client-command-center/index.html": "0fa13c010904441a421897aed7775bdc188664e6a71e4795da69f03ac773b01c",
+    "client-dashboard/index.html": "aed7bbfb42751a5b78290cb6b703f8e5561bd222b61cc44d350d7fc7f698213c",
+    "codeflow/app/index.html": "bc80e7f0e95ee3b2a9cdbd004c462be49adab652c096f51bef86f4ad9b90acce",
+    "codeflow/app/login/index.html": "505e64e2986bdbf3d42f30d365f900ffde56a6384ff888852c00fea5a2995405",
+    "codeflow/assets/codeflow-mgo-beside-system-buyer-sheet.html": "23f3f9fc1d5fe1a96b440d556c4c882ebecdec9fda58fdd1c87c2822d3ddde0a",
+    "codeflow/assets/codeflow-mgo-beside-system-buyer-sheet.pdf": "ea898b2df557bf97b2c447917b495cca9f8f32520f4ae7b83c24f51f6c6d5d70",
+    "codeflow/assets/codeflow-municipal-scope-questionnaire.pdf": "243ea5e94fcad1b310ba0f62e2a3ba3b5ebbc2f9dc8a62ac9dacf66d9f1ba8c2",
+    "codeflow/assets/codeflow-sales-model-pricing-explanation.html": "e869ae285d0e50d636f2d0e4ef91af1548bf38d389a51a5b25cf677635fdd5a4",
+    "codeflow/assets/codeflow-sales-model-pricing-explanation.pdf": "08f8be9fb60633457d9d210ca73652c5fbc0a0cfd52e9f2908dd1eb41cddab9e",
+    "codeflow/demo/index.html": "43c8d412f8e6e3400c863bc4010c86bccdce2c7062b8e7d9ff40617cb8329edc",
+    "codeflow/index.html": "ff7488e6a53ebd40a94792c78540d5054329f2cad819175812f0296e966f546d",
+    "codeflow/intake/index.html": "f93cc26d116c116f6d3fee4ae8099c0ea920a70c3b860220343892d4b227597f",
+    "codeflow/portal/index.html": "6960dbf07c234be49e422d2091726ba711c024e8e0060f1160ec3eda1d9478cb",
+    "codeflow/private/index.html": "726d382c120e2b216429256877cb5324c85aa193402fe961a35ffcbf22f0d5b9",
+    "codeflow/proof/index.html": "eff1413b0dd8c624f5a4e5ad572092c6f850f354336e3cd79fb13b7348c86035",
+    "codeflow/proposal/index.html": "b552615424450457d7c9982d3e18549bc6f13a333a4298987da216149af6a8b1",
+    "codeflow/staff-demo/index.html": "9b4d3dcbead464920b647cf78a5d22a57fc88b7ac8a03357b3c4a6ee5cec0092",
+    "codeflow/system-stack/index.html": "48c79420d7c8cfb626c53901d0b78fd053a2dc7dc6987f215bbf6c31377fb07e",
+    "consent/index.html": "b481f5a4c2188e34306b928dbab4c82cd59e1fe7d5f9c80d0bdc2d8591d5845c",
+    "crash-app/privacy-policy.html": "322f704f4fd34ee5e7bd64c71f84ae92011075254a07833bccceac044ca8545a",
+    "crash-app/support.html": "ef3176a9b044e1c15c881c06e180f993c8ab1f86b43ba76007a5e4641e336c54",
+    "lead-leak-snapshot/cleaning/index.html": "0fa13c010904441a421897aed7775bdc188664e6a71e4795da69f03ac773b01c",
+    "lead-leak-snapshot/electrical/index.html": "0fa13c010904441a421897aed7775bdc188664e6a71e4795da69f03ac773b01c",
+    "lead-leak-snapshot/hvac/index.html": "0fa13c010904441a421897aed7775bdc188664e6a71e4795da69f03ac773b01c",
+    "lead-leak-snapshot/index.html": "0fa13c010904441a421897aed7775bdc188664e6a71e4795da69f03ac773b01c",
+    "lead-leak-snapshot/pest-control/index.html": "0fa13c010904441a421897aed7775bdc188664e6a71e4795da69f03ac773b01c",
+    "lead-leak-snapshot/plumbing/index.html": "0fa13c010904441a421897aed7775bdc188664e6a71e4795da69f03ac773b01c",
+    "lead-leak-snapshot/pool-service/index.html": "0fa13c010904441a421897aed7775bdc188664e6a71e4795da69f03ac773b01c",
+    "lead-leak-snapshot/restoration/index.html": "0fa13c010904441a421897aed7775bdc188664e6a71e4795da69f03ac773b01c",
+    "lead-leak-snapshot/roofing/index.html": "0fa13c010904441a421897aed7775bdc188664e6a71e4795da69f03ac773b01c",
+    "partners/index.html": "0fa13c010904441a421897aed7775bdc188664e6a71e4795da69f03ac773b01c",
+    "privacy.html": "793e7d938608def23f7a56585ddecc2b0532460bc9c3ed3be93134b952471784",
+    "robots.txt": "e10040c565ad8a347a674c2d0224114ef898556e281deb05bc5f2b6b84668739",
+    "scripts/validate_codeflow_commercial_consistency.py": "7f1aee61578fce5197651f30f8fe2a25c6c957c7eb41ecd6b0c9811bcce5fe09",
+    "sitemap.xml": "b9fd811f19308f62081000fb486f8cfbb03cc87ef5d5d89e8a2a134b71cc398c",
+    "terms.html": "d1fe1d62ef746ac6d6998857f067209943d6fc8ae290c4db8480db12b3125eb3"
+  },
+  "hero_svg_sha256": "85721539bf1c89e30f9e05c49ff7d7c44b30562b57fd5a7e2e3dec37371a4a71",
+  "threat_section_sha256": "a87a569d7b50dba5d03c1df9355a808822debb429af6657fc12c5f474571933b",
+  "sections": {
+    "index.html": [
+      {
+        "class": "hero"
+      },
+      {
+        "class": "mission-strip"
+      },
+      {
+        "class": "section threat-section",
+        "id": "threat-landscape",
+        "aria-labelledby": "threat-title"
+      },
+      {
+        "class": "section",
+        "id": "services"
+      },
+      {
+        "class": "section dark-section",
+        "id": "approach"
+      },
+      {
+        "class": "section",
+        "id": "deliverables"
+      },
+      {
+        "class": "section quote-section",
+        "id": "quote"
+      }
+    ],
+    "services/index.html": [
+      {
+        "class": "page-hero"
+      },
+      {
+        "class": "service-detail",
+        "id": "digital"
+      },
+      {
+        "class": "service-detail",
+        "id": "physical"
+      },
+      {
+        "class": "service-detail",
+        "id": "combined"
+      },
+      {
+        "class": "section",
+        "id": "deliverables"
+      },
+      {
+        "class": "section quote-section"
+      }
+    ],
+    "pricing/index.html": [
+      {
+        "class": "page-hero"
+      },
+      {
+        "class": "section"
+      },
+      {
+        "class": "section quote-section"
+      },
+      {
+        "class": "section"
+      }
+    ],
+    "about/index.html": [
+      {
+        "class": "page-hero"
+      },
+      {
+        "class": "section"
+      },
+      {
+        "class": "section dark-section"
+      }
+    ],
+    "contact/index.html": [
+      {
+        "class": "page-hero"
+      },
+      {
+        "class": "section"
+      }
+    ],
+    "products/index.html": [
+      {
+        "class": "page-hero"
+      },
+      {
+        "class": "section"
+      },
+      {
+        "class": "section quote-section"
+      }
+    ],
+    "systems/index.html": [
+      {
+        "class": "page-hero"
+      },
+      {
+        "class": "section"
+      }
+    ],
+    "platform/index.html": [
+      {
+        "class": "page-hero"
+      },
+      {
+        "class": "section"
+      }
+    ],
+    "legacy/index.html": [
+      {
+        "class": "page-hero"
+      },
+      {
+        "class": "section"
+      }
+    ]
+  },
+  "csp": "default-src 'none'; script-src 'none'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+}

@@ -49,10 +49,10 @@ class Page(HTMLParser):
 
 
 class SecuritySiteTests(unittest.TestCase):
-    def test_homepage_sells_scoped_security_services(self):
+    def test_homepage_sells_scoped_monthly_care(self):
         page = Page(ROOT / "index.html")
         for phrase in [
-            "Security testing", "Digital", "Physical", "Combined",
+            "Kyber Website & Office Care", "Digital", "Physical", "Combined",
             "written authorization", "rules of engagement", "stop conditions",
             "capability review", "remediation", "retest", "quote",
             "American organizations", "Majority disabled veteran-owned",
@@ -176,7 +176,13 @@ class SecuritySiteTests(unittest.TestCase):
             page = Page(ROOT / relative)
             with self.subTest(page=relative):
                 self.assertNotRegex(page.source.lower(), r"\bcrest\b|\boscp\b|daybreak\s+red|accredited|certified|federal clearance|security clearance")
-                self.assertNotRegex(page.text.lower(), r"\d+\+? years|trusted by \d|[1-9]\d*\s*%|\$\s*\d")
+                self.assertNotRegex(page.text.lower(), r"\d+\+? years|trusted by \d")
+                # Owner-approved planned rate and referral math are the only
+                # permitted amounts. Keep rejecting every unapproved price or %.
+                amounts = set(re.findall(r"\$\s*[\d,.]+", page.text))
+                percentages = set(re.findall(r"\b\d+(?:\.\d+)?\s*%", page.text))
+                self.assertTrue(amounts.issubset({"$1,600", "$1,360", "$240"}), amounts)
+                self.assertTrue(percentages.issubset({"15%"}), percentages)
         services = Page(ROOT / "services/index.html").text.lower()
         for phrase in ["written authorization", "third-party permissions", "stop conditions", "emergency contacts",
                        "raw scanner output is not a full penetration test", "manual validation",
@@ -212,7 +218,7 @@ class SecuritySiteTests(unittest.TestCase):
         assert group is not None
         links = re.findall(r'<a\b[^>]*href="([^"]+)"', group.group(1))
         self.assertEqual(links, [
-            'mailto:harley@kyber-llc.com?subject=Security%20assessment%20scope',
+            'mailto:harley@kyber-llc.com?subject=Website%20and%20Office%20Care%20fit%20and%20scope',
             'mailto:harley@kyber-llc.com',
         ])
         css = (ROOT / 'assets/security-services.css').read_text()
