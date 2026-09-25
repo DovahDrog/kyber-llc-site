@@ -38,28 +38,29 @@ class MonthlyCareTests(unittest.TestCase):
         discovered = sorted(str(p.relative_to(ROOT)) for p in ROOT.rglob("*.html")
                             if "/assets/security-services.css" in p.read_text()
                             and p.name not in ("privacy.html", "terms.html"))
-        self.assertEqual(discovered, sorted(CARE_ROUTES))
+        self.assertEqual(discovered, sorted(CARE_ROUTES + ["website-care/index.html"]))
         # Partners is an existing redirect, not an active marketing page.
         self.assertIn('content="0;url=/legacy/"', (ROOT / "partners/index.html").read_text())
 
-    def test_every_entry_has_a_visible_scoped_preview_near_the_offer(self):
+    def test_every_entry_scopes_readiness_to_the_separate_combined_offer(self):
         for rel in CARE_ROUTES:
             with self.subTest(route=rel):
                 page = Page(ROOT / rel)
-                hero = re.search(r'<section class="(?:page-hero|hero)">(.*?)</section>', page.source, re.S)
-                self.assertIsNotNone(hero)
-                assert hero is not None
-                text = visible(hero.group(1))
+                combined = re.search(r'<aside\b[^>]*id="combined-plan"[^>]*>(.*?)</aside>', page.source, re.S)
+                self.assertIsNotNone(combined, "The combined preview needs a distinct, scoped block")
+                assert combined is not None
+                text = visible(combined.group(1))
                 for phrase in [OFFER, "$1,600/month", "planned", "service preview",
                                "within agreed scope", "not available for scheduling",
                                "legal/licensing", "demonstrated competence", "insurance",
                                "written authorization"]:
                     self.assertIn(phrase.lower(), text.lower(), phrase)
-                self.assertIn(READINESS, visible(page.source))
+                self.assertIn(READINESS, text)
+                self.assertIn("two office visits per calendar month", text.lower())
                 self.assertNotRegex(visible(page.source).lower(), r"book now|subscribe now|pay now|schedule your visit")
                 self.assertIn("Discuss fit", visible(page.source))
 
-    def test_metadata_and_organization_describe_the_same_preview(self):
+    def test_metadata_and_organization_describe_both_offers_without_blurring_readiness(self):
         for rel in CARE_ROUTES:
             with self.subTest(route=rel):
                 page = Page(ROOT / rel)
@@ -67,16 +68,18 @@ class MonthlyCareTests(unittest.TestCase):
                 assert title_match is not None
                 title = unescape(title_match.group(1))
                 meta = {m.get("name") or m.get("property"): m.get("content") for m in page.attrs("meta")}
-                self.assertIn("Website & Office Care", title)
+                self.assertIn("Website Care", title)
                 self.assertEqual(meta["og:title"], title)
                 self.assertEqual(meta["og:description"], meta["description"])
-                for phrase in ["Website & Office Care", "$1,600/month", "planned", "preview", "not available for scheduling"]:
+                for phrase in ["Website Care", "$600/month", "design", "development"]:
                     self.assertIn(phrase, meta["description"])
         home = (ROOT / "index.html").read_text()
         schema_match = re.search(r'<script type="application/ld\+json">(.*?)</script>', home, re.S)
         assert schema_match is not None
         schema = json.loads(schema_match.group(1))
         self.assertEqual(schema["@type"], "Organization")
+        for phrase in ["Kyber Website Care", "$600/month", "design and development", "while subscribed"]:
+            self.assertIn(phrase, schema["description"])
         self.assertIn(OFFER, schema["description"])
         for phrase in ["$1,600/month", "planned", "preview", "not available for scheduling"]:
             self.assertIn(phrase, schema["description"])
@@ -129,6 +132,8 @@ class MonthlyCareTests(unittest.TestCase):
         for rel in ["pricing/index.html", "contact/index.html", "legacy/index.html"]:
             with self.subTest(route=rel):
                 text = self.referral_text(rel).lower()
+                self.assertIn("website & office care only", text)
+                self.assertIn("not the website-only subscription", text)
                 for phrase in ["both the referrer and the referred customer", "first payment clears",
                                "next billing cycle", "maximum 15% per account", "does not stack",
                                "each customer’s own uninterrupted subscription",
@@ -174,7 +179,15 @@ class MonthlyCareTests(unittest.TestCase):
         self.assertEqual(len(baseline["sha256"]), 45)
         for rel, expected in baseline["sha256"].items():
             with self.subTest(file=rel):
-                self.assertEqual(hashlib.sha256((ROOT / rel).read_bytes()).hexdigest(), expected,
+                content = (ROOT / rel).read_bytes()
+                if rel == "sitemap.xml":
+                    # The new route explicitly requires this single addition. Keep
+                    # the frozen manifest: removing ONLY this entry must restore
+                    # the exact original bytes, including all old entries/dates.
+                    addition = b'  <url><loc>https://kyber-llc.com/website-care/</loc></url>\n'
+                    self.assertEqual(content.count(addition), 1)
+                    content = content.replace(addition, b"", 1)
+                self.assertEqual(hashlib.sha256(content).hexdigest(), expected,
                                  "Protected CSS, logo, product, legal or redirect changed")
         home = (ROOT / "index.html").read_text()
         for pattern, key in [(r'<svg class="boundary-drawing".*?</svg>', "hero_svg_sha256"),

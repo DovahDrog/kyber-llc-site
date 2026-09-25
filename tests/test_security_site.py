@@ -16,7 +16,8 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_PAGES = ["index.html", "services/index.html", "about/index.html", "contact/index.html",
                 "pricing/index.html", "products/index.html", "systems/index.html",
-                "platform/index.html", "legacy/index.html", "privacy.html", "terms.html"]
+                "platform/index.html", "legacy/index.html", "website-care/index.html",
+                "privacy.html", "terms.html"]
 
 
 def public_route(relative):
@@ -177,11 +178,11 @@ class SecuritySiteTests(unittest.TestCase):
             with self.subTest(page=relative):
                 self.assertNotRegex(page.source.lower(), r"\bcrest\b|\boscp\b|daybreak\s+red|accredited|certified|federal clearance|security clearance")
                 self.assertNotRegex(page.text.lower(), r"\d+\+? years|trusted by \d")
-                # Owner-approved planned rate and referral math are the only
+                # Owner-approved website rate, planned combined rate and referral math are the only
                 # permitted amounts. Keep rejecting every unapproved price or %.
                 amounts = set(re.findall(r"\$\s*[\d,.]+", page.text))
                 percentages = set(re.findall(r"\b\d+(?:\.\d+)?\s*%", page.text))
-                self.assertTrue(amounts.issubset({"$1,600", "$1,360", "$240"}), amounts)
+                self.assertTrue(amounts.issubset({"$600", "$1,600", "$1,360", "$240"}), amounts)
                 self.assertTrue(percentages.issubset({"15%"}), percentages)
         services = Page(ROOT / "services/index.html").text.lower()
         for phrase in ["written authorization", "third-party permissions", "stop conditions", "emergency contacts",
@@ -218,7 +219,7 @@ class SecuritySiteTests(unittest.TestCase):
         assert group is not None
         links = re.findall(r'<a\b[^>]*href="([^"]+)"', group.group(1))
         self.assertEqual(links, [
-            'mailto:harley@kyber-llc.com?subject=Website%20and%20Office%20Care%20fit%20and%20scope',
+            'mailto:harley@kyber-llc.com?subject=Website%20Care%20%24600%20plan',
             'mailto:harley@kyber-llc.com',
         ])
         css = (ROOT / 'assets/security-services.css').read_text()
