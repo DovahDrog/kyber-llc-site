@@ -25,10 +25,11 @@ class WebsiteSubscriptionTests(unittest.TestCase):
         for phrase in ["kyber website care", "$600/month", "design and development",
                        "new website", "refresh an existing website", "one agreed-scope",
                        "business marketing website", "while subscribed", "text", "photo",
-                       "service", "layout", "page", "routine upkeep", "client permission",
+                       "service", "layout", "page", "custom templates and files",
+                       "scoped requested revisions", "install and publish",
                        "scope, timing, and subscription terms", "before work begins"]:
             self.assertIn(phrase, text)
-        for heading in ["Request", "Preview", "Approval", "Publish"]:
+        for heading in ["Request", "Preview", "Approval", "Handoff"]:
             self.assertRegex(page.source, rf"<h3>{heading}</h3>")
         links = [a.get("href", "") for a in page.attrs("a")]
         self.assertIn(WEBSITE_MAILTO, links)
@@ -75,6 +76,8 @@ class WebsiteSubscriptionTests(unittest.TestCase):
         self.assertEqual(metadata["og:url"], "https://kyber-llc.com/website-care/")
         self.assertIn("$600/month", metadata["description"])
         self.assertIn("design and development", metadata["description"])
+        self.assertIn("templates and files", metadata["description"])
+        self.assertIn("Client or web professional installs and publishes", metadata["description"])
         self.assertNotIn("noindex", metadata.get("robots", ""))
         baseline = json.loads((ROOT / "tests/monthly_care_preservation.json").read_text())
         policies = [m["content"] for m in page.attrs("meta")
@@ -114,7 +117,9 @@ class WebsiteSubscriptionTests(unittest.TestCase):
         for phrase in ["not unlimited builds", "complex applications", "ecommerce",
                        "integrations", "separately scoped", "office visits", "wi-fi",
                        "physical-security", "penetration testing", "not included",
-                       "client approval before publication", "no public checkout"]:
+                       "client approval before file handoff", "no public checkout",
+                       "hosting", "server administration", "live-site management",
+                       "does not include live-site login", "no universal import promise"]:
             self.assertIn(phrase, text)
         for rel in CARE_ROUTES + [WEBSITE_ROUTE]:
             source = (ROOT / rel).read_text()
@@ -131,6 +136,29 @@ class WebsiteSubscriptionTests(unittest.TestCase):
                             r"guaranteed (?:leads|rankings|security|seo)", r"subscribe now|pay now",
                             r"leadconnector|gohighlevel|retell|buy\.stripe|checkout\.stripe"]:
                 self.assertNotRegex(text, pattern, rel)
+
+    def test_all_offer_surfaces_explain_file_delivery_and_client_publishing(self):
+        for rel in CARE_ROUTES + [WEBSITE_ROUTE]:
+            with self.subTest(route=rel):
+                page = Page(ROOT / rel)
+                text = visible(page.source).lower()
+                for phrase in ["custom templates and files", "you or your web professional install and publish",
+                               "hosting", "server administration", "live-site management"]:
+                    self.assertIn(phrase, text)
+                for phrase in ["routine upkeep", "reviewed publication", "we publish",
+                               "approval before publication", "approval → publish",
+                               "website access and changes"]:
+                    self.assertNotIn(phrase, text)
+                metadata = {m.get("name") or m.get("property"): m.get("content")
+                            for m in page.attrs("meta")}
+                for key in ["description", "og:description"]:
+                    self.assertIn("templates and files", metadata[key])
+                    self.assertIn("Client or web professional installs and publishes", metadata[key])
+
+    def test_contact_qualifies_platform_format_and_installer_without_site_access(self):
+        text = visible((ROOT / "contact/index.html").read_text()).lower()
+        self.assertIn("platform, preferred delivery format, and who will install and publish", text)
+        self.assertNotIn("approve access", text)
 
 
 if __name__ == "__main__":
