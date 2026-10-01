@@ -89,7 +89,7 @@ class MonthlyCareTests(unittest.TestCase):
         for rel in ["index.html", "services/index.html", "pricing/index.html"]:
             with self.subTest(route=rel):
                 text = visible((ROOT / rel).read_text()).lower()
-                for phrase in ["new website", "existing website", "scoped requested revisions",
+                for phrase in ["new website", "existing website", "up to 10 small update requests per month",
                                "recurring authorized website bug/vulnerability checks",
                                "two office visits per calendar month", "first and third weeks",
                                "wi-fi/security configuration", "authorized low-impact vulnerability review",

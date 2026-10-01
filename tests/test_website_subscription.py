@@ -23,10 +23,10 @@ class WebsiteSubscriptionTests(unittest.TestCase):
         self.assertIn('<p class="lead"><strong>$600/month.</strong>', page.source,
                       "The landing price must be prominent, not only in a small eyebrow")
         for phrase in ["kyber website care", "$600/month", "design and development",
-                       "new website", "refresh an existing website", "one agreed-scope",
+                       "new website", "existing website", "one agreed-scope",
                        "business marketing website", "while subscribed", "text", "photo",
                        "service", "layout", "page", "custom templates and files",
-                       "scoped requested revisions", "install and publish",
+                       "up to 10 small update requests per month", "install and publish",
                        "scope, timing, and subscription terms", "before work begins"]:
             self.assertIn(phrase, text)
         for heading in ["Request", "Preview", "Approval", "Handoff"]:
@@ -127,8 +127,8 @@ class WebsiteSubscriptionTests(unittest.TestCase):
             # subscription cancellation terms. Do not strip any other copy.
             source = re.sub(r'<details\b[^>]*id="referrals"[^>]*>.*?</details>', "", source, flags=re.S)
             text = visible(source).lower()
-            for pattern in [r"cancel any\s*time", r"no (?:minimum term|contract|setup fee)",
-                            r"no-setup-fee", r"free (?:setup|hosting|domain)",
+            for pattern in [r"cancel any\s*time", r"no (?:minimum term|contract)",
+                            r"free (?:setup|hosting|domain)",
                             r"\b(?:12|six|6|twelve)[ -]month (?:minimum|commitment|term)",
                             r"you own (?:the|your) (?:site|website|code)",
                             r"(?:24|48|72)[ -]hour (?:turnaround|delivery)",
@@ -136,6 +136,52 @@ class WebsiteSubscriptionTests(unittest.TestCase):
                             r"guaranteed (?:leads|rankings|security|seo)", r"subscribe now|pay now",
                             r"leadconnector|gohighlevel|retell|buy\.stripe|checkout\.stripe"]:
                 self.assertNotRegex(text, pattern, rel)
+
+    def test_monthly_scope_and_cancellation_are_consistent_without_new_promises(self):
+        for rel in CARE_ROUTES + [WEBSITE_ROUTE]:
+            with self.subTest(route=rel):
+                page = Page(ROOT / rel)
+                text = visible(page.source).lower()
+                for phrase in ["$600/month", "month-to-month", "no setup fee",
+                               "one initial website design", "page count agreed beforehand",
+                               "up to 10 small update requests per month",
+                               "plus one new page or substantial section per month in addition to those updates",
+                               "size and complexity are agreed beforehand", "handled one at a time",
+                               "cancel before renewal", "cancellation takes effect at the end of the paid period",
+                               "service continues through that period"]:
+                    self.assertIn(phrase, text)
+                metadata = {m.get("name") or m.get("property"): m.get("content")
+                            for m in page.attrs("meta")}
+                for key in ["description", "og:description"]:
+                    for phrase in ["$600/month", "month-to-month", "no setup fee",
+                                   "one initial website design", "up to 10 small update requests per month",
+                                   "plus one new page or substantial section per month in addition to those updates"]:
+                        self.assertIn(phrase, metadata[key])
+                for pattern in [r"10 small update requests (?:per|a|each) week",
+                                r"10 (?:updates|requests) (?:per|a|each) week",
+                                r"\b(?:rollover|roll over|expire|expiry|refunds?)\b",
+                                r"\b\d+[ -](?:hour|day) (?:turnaround|delivery)",
+                                r"\b(?:maximum|max|up to) \d+ (?:initial )?pages\b",
+                                r"unlimited (?:website )?(?:updates|requests|revisions|changes) (?:included|per month)"]:
+                    self.assertNotRegex(text, pattern, rel)
+
+    def test_faq_distinguishes_initial_design_and_additional_monthly_page_or_section(self):
+        for rel in [WEBSITE_ROUTE, "pricing/index.html"]:
+            with self.subTest(route=rel):
+                source = (ROOT / rel).read_text()
+                answers = {visible(summary).lower(): visible(answer).lower()
+                           for summary, answer in re.findall(r'<details><summary>(.*?)</summary><p>(.*?)</p></details>', source, re.S)}
+                redesign = answers["does each month include a full website redesign?"]
+                self.assertTrue(redesign.startswith("no."))
+                self.assertIn("one initial website design when you join", redesign)
+                self.assertIn("a full website redesign is separately scoped and quoted", redesign)
+                addition = answers["is the new page or section part of the 10 small updates?"]
+                self.assertTrue(addition.startswith("no."))
+                self.assertIn("included in addition to", addition)
+                self.assertIn("size and complexity beforehand", addition)
+                for phrase in ["booking systems", "ecommerce", "custom integrations", "separately scoped and quoted"]:
+                    self.assertIn(phrase, addition)
+                self.assertNotIn("adjust layouts and add pages within agreed scope", visible(source).lower())
 
     def test_all_offer_surfaces_explain_file_delivery_and_client_publishing(self):
         for rel in CARE_ROUTES + [WEBSITE_ROUTE]:
